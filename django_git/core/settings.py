@@ -13,6 +13,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY",
                             "AL{ysyh03<p|I%39YE4qf23dZp9Xd")
 
 INSTALLED_APPS = (
+    "django_git.core",
     "django_git.auth",
     "django_git.repositories",
     "django_git.issues",
@@ -63,3 +64,5 @@ ALLOWED_HOSTS = (
 ROOT_URLCONF = "django_git.core.urls"
 
 STATIC_URL = "/static/"
+
+LOGIN_URL = "login"

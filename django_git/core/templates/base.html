@@ -1,0 +1,14 @@
+{% spaceless %}
+<!doctype html>
+<html>
+    <head>
+        <title>
+            {% block title %}{% endblock %}
+            {% block website_name %}GitView{% endblock %}
+        </title>
+    </head>
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+</html>
+{% endspaceless %}
