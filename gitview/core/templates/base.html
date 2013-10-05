@@ -1,14 +1,69 @@
-{% spaceless %}
+{% load staticfiles %}
+
 <!doctype html>
 <html>
     <head>
         <title>
             {% block title %}{% endblock %}
-            {% block website_name %}GitView{% endblock %}
+            {{ gitview.name }}
         </title>
+
+        <link href="{% static "css/bootstrap.css" %}" rel="stylesheet"
+              type="text/css" />
+
+        <style type="text/css">
+            .navbar-btn { margin-right: 8px; }
+        </style>
     </head>
     <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">{{ gitview.name }}</a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    {% if user.is_active %}
+                    <li><a href="#">Notifications</a></li>
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <li><a href="{% url "admin:index" %}">Admin</a></li>
+                    {% endif %}
+                </ul>
+
+                {% if user.is_active %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">{{ user.username }}</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="{% url "logout" %}">Log out</a></li>
+                </ul>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><div>
+                        <a href="#" class="btn btn-success navbar-btn">
+                            Register
+                        </a>
+                    </div></li>
+                    <li><div>
+                        <a href="{% url "login" %}"
+                           class="btn btn-primary navbar-btn">
+                            Sign in
+                        </a>
+                    </div></li>
+                </ul>
+                {% endif %}
+            </div>
+        </nav>
+
         {% block content %}{% endblock %}
     </body>
 </html>
-{% endspaceless %}
