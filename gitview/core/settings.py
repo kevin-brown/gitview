@@ -8,15 +8,15 @@ DEBUG = True
 # "DJANGO_SECRET_KEY".  The default is only here for quick testing and should
 # not be used in a production environment.
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY",
+SECRET_KEY = os.environ.get("GITVIEW_SECRET_KEY",
                             "43VZ9xksRQS`z+_}2Ac^c3!$3_Wl!"
                             "AL{ysyh03<p|I%39YE4qf23dZp9Xd")
 
 INSTALLED_APPS = (
-    "django_git.core",
-    "django_git.auth",
-    "django_git.repositories",
-    "django_git.issues",
+    "gitview.core",
+    "gitview.auth",
+    "gitview.repositories",
+    "gitview.issues",
     "django.contrib.admin",
     "django.contrib.contenttypes",
     "django.contrib.messages",
@@ -45,9 +45,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get("DJANGO_DATABASE_NAME", "devdb"),
+        'NAME': os.environ.get("GITVIEW_DATABASE_NAME", "devdb"),
         'USER': 'postgres',
-        'PASSWORD': os.environ.get("DJANGO_DATABASE_PASSWORD", "dev"),
+        'PASSWORD': os.environ.get("GITVIEW_DATABASE_PASSWORD", "dev"),
         "HOST": "localhost",
         "PORT": "",
         "OPTIONS": {
@@ -61,7 +61,7 @@ ALLOWED_HOSTS = (
     os.environ.get("DJANGO_HOST", None),
 )
 
-ROOT_URLCONF = "django_git.core.urls"
+ROOT_URLCONF = "gitview.core.urls"
 
 STATIC_URL = "/static/"
 
