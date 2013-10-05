@@ -1,0 +1,2 @@
+Django==1.5.4
+https://github.com/gitpython-developers/GitPython/archive/0.3.tar.gz#egg=GitPython
