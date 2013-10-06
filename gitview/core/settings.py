@@ -40,6 +40,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
+    "gitview.core.context_processors.settings",
 )
 
 DATABASES = {
@@ -65,6 +66,6 @@ ROOT_URLCONF = "gitview.core.urls"
 
 STATIC_URL = "/static/"
 
-LOGIN_URL = "login"
+LOGIN_URL = "auth:login"
 
 LOGIN_REDIRECT_URL = "index"

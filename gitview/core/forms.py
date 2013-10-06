@@ -11,7 +11,7 @@ class BootstrappedForm(forms.BaseForm):
         return self._html_output(
             normal_row=u"<div%(html_class_attr)s>%(label)s %(field)s"
             "%(help_text)s</div>",
-            error_row=u"<div class=\"alert alert-error form-error-list\">"
+            error_row=u"<div class=\"alert alert-danger form-error-list\">"
             "%s</div>",
             row_ender='</div>',
             help_text_html=u' <span class="helptext">%s</span>',
@@ -30,11 +30,11 @@ class Form(BootstrappedForm, forms.Form):
     pass
 
             
-class ModelForm(BootstrappedForm, model_forms.ModelForm):
+class ModelForm(BootstrappedForm, forms.ModelForm):
     pass
 
 
-class BootstrappedField(forms.BoundField):
+class BootstrappedField(forms.forms.BoundField):
 
     def label_tag(self, contents=None, attrs=None):
         """
@@ -45,6 +45,9 @@ class BootstrappedField(forms.BoundField):
         If attrs are given, they're used as HTML attributes on the <label>
         tag.
         """
+
+        from django.utils.safestring import mark_safe
+
         contents = contents or conditional_escape(self.label)
         widget = self.field.widget
         id_ = widget.attrs.get('id') or self.auto_id
@@ -56,10 +59,10 @@ class BootstrappedField(forms.BoundField):
             # Display checkbox labels to the right of checkboxes
             
             if isinstance(widget, widgets.CheckboxInput):
-                contents = u'<label for="%s"%s class="checkbox">%s' %
+                contents = u'<label for="%s"%s class="checkbox">%s' % \
                 (widget.id_for_label(id_), attrs, unicode(contents))
             else:
-                contents = u'<label for="%s"%s>%s</label>' %
+                contents = u'<label for="%s"%s>%s</label>' % \
                 (widget.id_for_label(id_), attrs, unicode(contents))
         return mark_safe(contents)
         

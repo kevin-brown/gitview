@@ -6,8 +6,7 @@ admin.autodiscover()
 
 urlpatterns = (
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^login/$', 'django.contrib.auth.views.login',
-        name="login"),
+    url(r"^", include("gitview.auth.urls", namespace="auth")),
     url(r"^logout/$", "django.contrib.auth.views.logout",
         name="logout"),
     url(r"^$", "django.contrib.auth.views.login", name="index"),

@@ -13,25 +13,32 @@
 
         <style type="text/css">
             .navbar-btn { margin-right: 8px; }
+            label { display: block; }
+            input[type=text],
+            input[type=password] { display: block; width: 100%; }
+            form > div { margin-bottom: 15px; }
         </style>
+
+        {% block css %}{% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle"
                         data-toggle="collapse"
-                        data-target=".navbar-ex1-collapse">
+                        data-target=".navbar-primary-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">{{ gitview.name }}</a>
+                <a class="navbar-brand" href="{% url "index" %}">
+                    {{ gitview.name }}
+                </a>
             </div>
 
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="collapse navbar-collapse navbar-primary-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url "index" %}">Home</a></li>
                     {% if user.is_active %}
                     <li><a href="#">Notifications</a></li>
                     {% endif %}
@@ -54,7 +61,7 @@
                         </a>
                     </div></li>
                     <li><div>
-                        <a href="{% url "login" %}"
+                        <a href="{% url "auth:login" %}"
                            class="btn btn-primary navbar-btn">
                             Sign in
                         </a>
@@ -65,5 +72,7 @@
         </nav>
 
         {% block content %}{% endblock %}
+
+        {% block js %}{% endblock %}
     </body>
 </html>
