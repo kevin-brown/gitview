@@ -10,4 +10,5 @@ urlpatterns = (
         name="login"),
     url(r"^logout/$", "django.contrib.auth.views.logout",
         name="logout"),
+    url(r"^$", "django.contrib.auth.views.login", name="index"),
 )

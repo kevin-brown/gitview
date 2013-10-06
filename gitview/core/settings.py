@@ -66,3 +66,5 @@ ROOT_URLCONF = "gitview.core.urls"
 STATIC_URL = "/static/"
 
 LOGIN_URL = "login"
+
+LOGIN_REDIRECT_URL = "index"
