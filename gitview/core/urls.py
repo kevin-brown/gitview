@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from gitview.auth.views import LoginView
+from gitview.core.views.index import DashboardView
 
 admin.autodiscover()
 
@@ -8,5 +8,5 @@ admin.autodiscover()
 urlpatterns = (
     url(r'^admin/', include(admin.site.urls)),
     url(r"^", include("gitview.auth.urls", namespace="auth")),
-    url(r"^$", LoginView.as_view(), name="index"),
+    url(r"^$", DashboardView.as_view(), name="index"),
 )
