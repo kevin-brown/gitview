@@ -8,8 +8,8 @@
             {{ gitview.name }}
         </title>
 
-        <link href="{% static "css/bootstrap.css" %}" rel="stylesheet"
-              type="text/css" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet" type="text/css" />
 
         <style type="text/css">
             .navbar-btn { margin-right: 8px; }
@@ -52,8 +52,18 @@
                 {% if user.is_active %}
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">{{ user.username }}</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="{% url "auth:logout" %}">Log out</a></li>
+                    <li>
+                        <a href="#">
+                            <i class="icon-cog"></i>
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "auth:logout" %}">
+                            <i class="icon-signout"></i>
+                            Log out
+                        </a>
+                    </li>
                 </ul>
                 {% else %}
                 <ul class="nav navbar-nav navbar-right">

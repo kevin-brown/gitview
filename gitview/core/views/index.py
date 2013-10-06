@@ -22,7 +22,7 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         from gitview.repositories.models import Repository
 
-        kwargs["user_repositories"] = Repository.objects.for_user(
+        kwargs["user_repositories"] = Repository.objects.filter_for_user(
             self.request.user)
 
         return super(DashboardView, self).get_context_data(**kwargs)

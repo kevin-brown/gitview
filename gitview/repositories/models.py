@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
+from gitview.repositories.managers import RepositoryManager
+
 
 class Repository(models.Model):
     owner_id = models.PositiveIntegerField()
@@ -11,6 +13,8 @@ class Repository(models.Model):
                                        ct_field="owner_ct")
 
     name = models.SlugField(max_length=50, unique=True)
+
+    objects = RepositoryManager()
 
     class Meta:
         verbose_name_plural = "repositories"

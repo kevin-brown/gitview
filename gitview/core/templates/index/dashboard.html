@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style type="text/css">
+    .dashboard-repositories {
+        border: 1px solid black;
+        border-radius: 3px;
+    }
+    .dashboard-repositories-header {
+        margin: 0;
+        padding: 6px;
+    }
+    .dashboard-repositories-new {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+    .dashboard-repositories-block {
+        border-top: 1px solid black;
+    }
+    .dashboard-repositories-link {
+        display: block;
+        padding: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            News stream
+        </div>
+        <div class="col-lg-4">
+            <div class="dashboard-repositories">
+                <h3 class="dashboard-repositories-header">
+                    Your repositories
+                    <a href="#"
+                       class="btn btn-success pull-right dashboard-repositories-new">
+                        <i class="icon-plus"></i>
+                        New repository
+                    </a>
+                </h3>
+
+                {% for repository in user_repositories %}
+                <div class="dashboard-repositories-block">
+                    <a href="#" class="dashboard-repositories-link">
+                        {{ repository.name }}
+                    </a>
+                </div>
+                {% empty %}
+                <div class="dashboard-respositories-none">
+                    You have no repositories.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
