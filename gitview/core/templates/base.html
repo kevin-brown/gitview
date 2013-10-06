@@ -16,7 +16,9 @@
             label { display: block; }
             input[type=text],
             input[type=password] { display: block; width: 100%; }
-            form > div { margin-bottom: 15px; }
+            .form-control { margin-bottom: 15px; }
+            .form-error-list { margin-bottom: 5px; padding: 10px; }
+            .form-error-list ul { list-style: none; margin: 0; padding: 0; }
         </style>
 
         {% block css %}{% endblock %}
@@ -51,7 +53,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">{{ user.username }}</a></li>
                     <li><a href="#">Settings</a></li>
-                    <li><a href="{% url "logout" %}">Log out</a></li>
+                    <li><a href="{% url "auth:logout" %}">Log out</a></li>
                 </ul>
                 {% else %}
                 <ul class="nav navbar-nav navbar-right">
