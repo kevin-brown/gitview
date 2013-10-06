@@ -1,9 +1,10 @@
 from django.conf.urls import url
+from gitview.repositories import views
 
 
 urlpatterns = (
     url(r"^$",
-        "django.contrib.auth.views.login",
+        views.CodeView.as_view(),
         name="index",
     ),
 )
