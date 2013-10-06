@@ -43,7 +43,8 @@
 
                 {% for repository in user_repositories %}
                 <div class="dashboard-repositories-block">
-                    <a href="#" class="dashboard-repositories-link">
+                    <a class="dashboard-repositories-link"
+                       href="{% url "repos:index" repository.owner.username repository.name %}">
                         {{ repository.name }}
                     </a>
                 </div>

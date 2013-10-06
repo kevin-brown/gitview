@@ -51,7 +51,11 @@
 
                 {% if user.is_active %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">{{ user.username }}</a></li>
+                    <li>
+                        <a href="{% url "profile:index" user.username %}">
+                            {{ user.username }}
+                        </a>
+                    </li>
                     <li>
                         <a href="#">
                             <i class="icon-cog"></i>
