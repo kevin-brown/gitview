@@ -12,6 +12,9 @@ class Repository(models.Model):
 
     name = models.SlugField(max_length=50, unique=True)
 
+    class Meta:
+        verbose_name_plural = "repositories"
+
 
 class Commit(models.Model):
     sha_hash = models.CharField(max_length=40)
