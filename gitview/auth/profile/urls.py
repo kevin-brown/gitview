@@ -1,6 +1,7 @@
 from django.conf.urls import url
+from gitview.auth.profile import views
 
 
 urlpatterns = (
-    url("^$", "django.contrib.auth.views.login", name="index"),
+    url("^$", views.IndexView.as_view(), name="index"),
 )

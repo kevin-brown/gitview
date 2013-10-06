@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style type="text/css">
+    .profile-repository {
+        border-bottom: 1px solid black;
+        padding-bottom: 6px;
+    }
+    .profile-repository-header { font-size: 22px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <img src="http://placehold.it/500x500" height="250" width="250" />
+            <h1>
+                {{ profile_owner.get_full_name }}
+                <small>{{ profile_owner.username }}</small>
+            </h1>
+        </div>
+        <div class="col-lg-9">
+            {% for repository in profile_repositories %}
+            <div class="profile-repository">
+                <div class="profile-repository-header">
+                    <a href="{% url "repos:index" repository.owner.username repository.name %}">
+                        {{ repository.name }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
