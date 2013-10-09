@@ -1,0 +1,22 @@
+{% extends "repositories/base.html" %}
+
+{% block repository-contents %}
+{% block commit %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                {{ commit.summary }}
+            </div>
+            <div class="panel-body">
+                {{ commit.author }}
+                authored on
+                {{ commit.commited_date }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block files-contents %}{% endblock %}
+{% endblock %}

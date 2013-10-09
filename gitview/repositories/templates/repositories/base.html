@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-lg-12">
             <ul class="nav nav-tabs nav-justified">
-                <li class="active">
-                    <a href="#">
+                <li {% if active_tab == "files" %}class="active"{% endif %}>
+                    <a href="{% url "repos:index" repository.owner.username repository.name %}">
                         <i class="icon-code"></i>
                         Files
                     </a>
@@ -31,6 +31,6 @@
         </div>
     </div>
 
-    {% block repository-content %}{% endblock %}
+    {% block repository-contents %}{% endblock %}
 </div>
 {% endblock %}
