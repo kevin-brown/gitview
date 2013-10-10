@@ -81,3 +81,19 @@ class BlobView(mixins.RepositoryMixin, mixins.TreeMixin, TemplateView):
         kwargs["commit"] = commit
 
         return super(BlobView, self).get_context_data(**kwargs)
+
+
+class CommitView(mixins.RepositoryMixin, TemplateView):
+    template_name = "repositories/commit.html"
+
+    def get_context_data(self, **kwargs):
+        commit_hash = self.kwargs["commit_hash"]
+        commit = self.git_repository.commit(commit_hash)
+
+        kwargs["commit"] = commit
+
+        diff = commit.diff("%s~1" % commit_hash, create_patch=True)
+
+        kwargs["commit_diff"] = diff
+
+        return super(CommitView, self).get_context_data(**kwargs)

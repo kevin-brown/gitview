@@ -1,0 +1,20 @@
+{% extends "repositories/files_base.html" %}
+
+{% block files-contents %}
+<div class="row">
+    <div class="col-lg-12">
+        {% for diff in commit_diff %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ diff.a_blob.name }}
+            </div>
+            <div class="panel-body">
+                {% if diff.a_blob %}
+                <pre>{{ diff.diff | linenumbers | linebreaksbr }}</pre>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

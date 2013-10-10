@@ -16,7 +16,7 @@ urlpatterns = (
         name="tree_path",
     ),
     url(r"^commit/(?P<commit_hash>[\w]{7,40})$",
-        views.TreeView.as_view(),
+        views.CommitView.as_view(),
         name="commit",
     ),
     url(r"^blob/(?P<tree_name>[-\w]+)/(?P<blob_path>.+)$",
