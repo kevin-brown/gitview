@@ -33,10 +33,14 @@
                 {% if current_tree.path %}
                 <tr>
                     <td>
+                    </td>
+                    <td>
                         <a title="Go to tree root"
                            href="{% url "repos:tree_index" repository.owner.username repository.name current_tree_name %}">
                             ..
                         </a>
+                    </td>
+                    <td>
                     </td>
                     <td>
                     </td>
@@ -45,23 +49,34 @@
                 {% for tree, tree_commit, tree_commit_time in trees %}
                 <tr>
                     <td>
+                        <i class="icon-folder-close"></i>
+                    </td>
+                    <td>
                         <a title="{{ tree.name }}"
                            href="{% url "repos:tree_path" repository.owner.username repository.name current_tree_name tree.path %}">
                             {{ tree.name }}
                         </a>
                     </td>
                     <td>
-                        <a href="#" title="{{ tree_commit.summary }}">
+                        <a href="{% url "repos:commit" repository.owner.username repository.name tree_commit.hexsha %}"
+                           title="{{ tree_commit.summary }}">
                             {{ tree_commit.summary }}
                         </a>
                     </td>
                     <td>
-                        {{ tree_commit_time }}
+                        <time class="js-timeago"
+                              title="{{ tree_commit_time }}"
+                              datetime="{{ tree_commit_time | date:"c" }}">
+                            {{ tree_commit_time }}
+                        </time>
                     </td>
                 </tr>
                 {% endfor %}
                 {% for blob, blob_commit, blob_commit_time in blobs %}
                 <tr>
+                    <td>
+                        <i class="icon-file-alt"></i>
+                    </td>
                     <td>
                         <a href="{% url "repos:blob" repository.owner.username repository.name current_tree_name blob.path %}"
                            title="{{ blob.name }}">
@@ -69,12 +84,17 @@
                         </a>
                     </td>
                     <td>
-                        <a href="#" title="{{ blob_commit.summary }}">
+                        <a href="{% url "repos:commit" repository.owner.username repository.name blob_commit.hexsha %}"
+                           title="{{ blob_commit.summary }}">
                             {{ blob_commit.summary }}
                         </a>
                     </td>
                     <td>
-                        {{ blob_commit_time }}
+                        <time class="js-timeago"
+                              title="{{ blob_commit_time }}"
+                              datetime="{{ blob_commit_time | date:"c" }}">
+                            {{ blob_commit_time }}
+                        </time>
                     </td>
                 </tr>
                 {% endfor %}
