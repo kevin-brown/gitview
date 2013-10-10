@@ -1,10 +1,31 @@
 {% extends "base.html" %}
 
+{% block css %}
+<style type="text/css">
+.repository-nav {
+    padding-bottom: 1em;
+}
+
+.repository-nav > li > a {
+    border-radius: 0;
+}
+
+.repository-nav > li.active > a {
+    border: none !important;
+    border-bottom: 3px solid black !important;
+}
+
+.repository-nav > li.active > a:hover {
+    cursor: pointer;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <ul class="nav nav-tabs nav-justified">
+            <ul class="nav nav-tabs nav-justified repository-nav">
                 <li {% if active_tab == "files" %}class="active"{% endif %}>
                     <a href="{% url "repos:index" repository.owner.username repository.name %}">
                         <i class="icon-code"></i>

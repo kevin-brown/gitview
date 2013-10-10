@@ -45,3 +45,15 @@ class TreeMixin(object):
         kwargs["current_tree_name"] = self.tree_name
 
         return super(TreeMixin, self).get_context_data(**kwargs)
+
+
+class RepositorySection(object):
+
+    def get_context_data(self, **kwargs):
+        kwargs["active_tab"] = self.section_name
+
+        return super(RepositorySection, self).get_context_data(**kwargs)
+
+
+class FilesSectionMixin(RepositorySection):
+    section_name = "files"

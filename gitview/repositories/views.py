@@ -2,7 +2,8 @@ from django.views.generic import TemplateView
 from gitview.repositories import mixins
 
 
-class TreeView(mixins.RepositoryMixin, mixins.TreeMixin, TemplateView):
+class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
+               mixins.FilesSectionMixin, TemplateView):
     template_name = "repositories/tree.html"
 
     def get_context_data(self, **kwargs):
@@ -53,7 +54,8 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin, TemplateView):
         return super(TreeView, self).get_context_data(**kwargs)
 
 
-class BlobView(mixins.RepositoryMixin, mixins.TreeMixin, TemplateView):
+class BlobView(mixins.RepositoryMixin, mixins.TreeMixin,
+               mixins.FilesSectionMixin, TemplateView):
     template_name = "repositories/blob.html"
 
     def get_context_data(self, **kwargs):
@@ -83,7 +85,8 @@ class BlobView(mixins.RepositoryMixin, mixins.TreeMixin, TemplateView):
         return super(BlobView, self).get_context_data(**kwargs)
 
 
-class CommitView(mixins.RepositoryMixin, TemplateView):
+class CommitView(mixins.RepositoryMixin, mixins.FilesSectionMixin,
+                 TemplateView):
     template_name = "repositories/commit.html"
 
     def get_context_data(self, **kwargs):
