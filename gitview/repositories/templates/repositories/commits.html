@@ -42,7 +42,7 @@ display: block;
     <div class="commit-hash pull-right">
         <a href="{% url "repos:commit" repository.owner.username repository.name commit.hexsha %}"
            title="View the commit">
-            {{ commit.hexsha | slice:":7" }}
+            {{ commit.shorthash }}
         </a>
     </div>
     <div class="commit-summary">
@@ -72,8 +72,20 @@ display: block;
     <div class="commit-author-line">
         {{ commit.author }}
         authored on
-        {{ commit.committed_date }}
+        {{ commit.committed_time }}
     </div>
 </div>
 {% endfor %}
+
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-default">
+    Previous
+</a>
+{% endif %}
+
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-default">
+    Next
+</a>
+{% endif %}
 {% endblock %}

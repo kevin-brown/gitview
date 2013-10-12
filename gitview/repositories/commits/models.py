@@ -30,3 +30,7 @@ class Commit(object):
             return "\n".join(lines[2:])
 
         return "\n".join(lines[1:])
+
+    @property
+    def shorthash(self):
+        return self.hexsha[:7]

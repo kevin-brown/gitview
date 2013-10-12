@@ -9,7 +9,7 @@
                 <a href="{% url "repos:blob" repository.owner.username repository.name commit.hexsha diff.a_blob.path %}"
                    title="View file"
                    class="btn btn-default btn-xs pull-right">
-                    View file @ {{ commit.hexsha | slice:":7" }}
+                    View file @ {{ commit.shorthash }}
                 </a>
                 {{ diff.a_blob.path }}
             </div>
