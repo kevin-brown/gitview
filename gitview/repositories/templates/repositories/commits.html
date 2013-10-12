@@ -36,6 +36,19 @@ display: block;
 </style>
 {% endblock %}
 
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).on("click", ".commit-summary-more", function () {
+$this = $(this);
+
+$commit = $this.parents(".commit");
+
+$commit.toggleClass("commit-open");
+});
+</script>
+{% endblock %}
+
 {% block files-contents %}
 {% for day, commits_list in commits %}
 <div class="panel panel-info">
