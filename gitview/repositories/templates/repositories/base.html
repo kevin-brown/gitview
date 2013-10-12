@@ -7,6 +7,31 @@
     margin-top: 0;
 }
 
+.repository-status {
+    color: darkgrey;
+    position: relative;
+}
+
+.repository-label {
+    font-size: 12px;
+    left: -50px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 10px;
+}
+
+.repository-status.private {
+    color: khaki;
+}
+
+.private .repository-label {
+    background-color: khaki;
+    color: black;
+    left: -70px;
+    padding: 3px 6px;
+    top: 7px;
+}
+
 .repository-breadcrumb-divider {
     color: darkgrey;
 }
@@ -37,6 +62,21 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="repository-breadcrumb">
+                {% if repository.is_private %}
+                <span class="repository-status private">
+                    <span class="repository-label">
+                        private
+                    </span>
+                    <i class="icon-lock"></i>
+                </span>
+                {% else %}
+                <span class="repository-status public">
+                    <span class="repository-label">
+                        public
+                    </span>
+                    <i class="icon-globe"></i>
+                </span>
+                {% endif %}
                 <a href="{% url "profile:index" repository.owner.username %}"
                    class="repository-breadcrumb-owner">
                     {{ repository.owner }}</a>
