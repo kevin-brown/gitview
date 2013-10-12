@@ -57,3 +57,7 @@ class RepositorySection(object):
 
 class FilesSectionMixin(RepositorySection):
     section_name = "files"
+
+
+class CommitsSectionMixin(RepositorySection):
+    section_name = "commits"

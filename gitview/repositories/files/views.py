@@ -85,17 +85,24 @@ class BlobView(mixins.RepositoryMixin, mixins.TreeMixin,
         return super(BlobView, self).get_context_data(**kwargs)
 
 
-class CommitView(mixins.RepositoryMixin, mixins.FilesSectionMixin,
+class CommitView(mixins.RepositoryMixin, mixins.CommitsSectionMixin,
                  TemplateView):
     template_name = "repositories/commit.html"
 
     def get_context_data(self, **kwargs):
+        from django.http import Http404
+        from git import BadObject
+
         commit_hash = self.kwargs["commit_hash"]
         commit = self.git_repository.commit(commit_hash)
 
         kwargs["commit"] = commit
 
-        diff = commit.diff("%s~1" % commit_hash, create_patch=True)
+        try:
+            previous_commit = self.git_repository.commit("%s~1" % commit_hash)
+            diff = previous_commit.diff(commit, create_patch=True)
+        except BadObject:
+            raise Http404("We can't get the diff for this commit")
 
         kwargs["commit_diff"] = diff
 

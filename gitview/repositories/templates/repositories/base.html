@@ -34,8 +34,8 @@
                         Files
                     </a>
                 </li>
-                <li>
-                    <a href="#">
+                <li {% if active_tab == "commits" %}class="active"{% endif %}>
+                    <a href="{% url "repos:commits_list" repository.owner.username repository.name %}">
                         Commits
                     </a>
                 </li>

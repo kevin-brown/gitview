@@ -1,0 +1,79 @@
+{% extends "repositories/files_base.html" %}
+
+{% block css %}
+{{ block.super }}
+<style type="text/css">
+.commit {
+border: 1px solid black;
+margin-bottom: 1em;
+padding: 6px;
+}
+.commit-summary-more {
+background-color: lightgrey;
+color: black;
+display: inline-block;
+font-size: 12px;
+font-weight: bold;
+height: 12px;
+line-height: 6px;
+padding: 0 4px;
+text-decoration: none;
+vertical-align: middle;
+}
+.commit-summary-more:hover {
+background-color: darkgrey;
+color: black;
+cursor: pointer;
+text-decoration: none;
+}
+.commit-message {
+display: none;
+}
+
+.commit-open .commit-message {
+display: block;
+}
+</style>
+{% endblock %}
+
+{% block files-contents %}
+{% for commit in commits %}
+<div class="commit">
+    <div class="commit-hash pull-right">
+        <a href="{% url "repos:commit" repository.owner.username repository.name commit.hexsha %}"
+           title="View the commit">
+            {{ commit.hexsha | slice:":7" }}
+        </a>
+    </div>
+    <div class="commit-summary">
+        <a href="{% url "repos:commit" repository.owner.username repository.name commit.hexsha %}"
+           title="{{ commit.summary }}">
+            {{ commit.summary }}
+        </a>
+        {% if commit.description %}
+        <a class="commit-summary-more"
+           title="Show the commit description">
+            &hellip;
+        </a>
+        {% endif %}
+    </div>
+    {% if commit.description %}
+    <div class="commit-message">
+        <pre>{{ commit.description | linebreaksbr }}</pre>
+    </div>
+    {% endif %}
+    <div class="commit-tree pull-right">
+        <a href="{% url "repos:tree_index" repository.owner.username repository.name commit.hexsha %}"
+           title="Browse the code for this commit">
+            Browse code
+            <i class="icon-arrow-right"></i>
+        </a>
+    </div>
+    <div class="commit-author-line">
+        {{ commit.author }}
+        authored on
+        {{ commit.committed_date }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
