@@ -15,7 +15,11 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for branch in git_repository.branches %}
-                <li><a href="#">{{ branch.name }}</a></li>
+                <li>
+                    <a href="{% url "repos:tree_index" repository.owner.username repository.name branch.name %}">
+                        {{ branch.name }}
+                    </a>
+                </li>
                 {% endfor %}
             </ul>
         </div>
