@@ -6,7 +6,12 @@
         {% for diff in commit_diff %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{ diff.a_blob.name }}
+                <a href="{% url "repos:blob" repository.owner.username repository.name commit.hexsha diff.a_blob.path %}"
+                   title="View file"
+                   class="btn btn-default btn-xs pull-right">
+                    View file @ {{ commit.hexsha | slice:":7" }}
+                </a>
+                {{ diff.a_blob.path }}
             </div>
             <div class="panel-body">
                 {% if diff.a_blob %}
