@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView, View
 from gitview.repositories import mixins
 from gitview.repositories.commits import CommitPaginator
 
@@ -41,3 +41,31 @@ class CommitView(mixins.RepositoryMixin, mixins.CommitsSectionMixin,
         kwargs["commit_diff"] = diff
 
         return super(CommitView, self).get_context_data(**kwargs)
+
+
+class DiffView(mixins.RepositoryMixin, View):
+    def get(self, *args, **kwargs):
+        from django.http import HttpResponse
+        from git import BadObject
+
+        commit_hash = self.kwargs["commit_hash"]
+        commit = self.git_repository.commit(commit_hash)
+
+        patch = self.git_repository.git.execute(["git", "diff",
+                    "%s^!" % commit.hexsha])
+
+        return HttpResponse(patch, content_type="text/plain; charset=utf-8")
+
+
+class PatchView(mixins.RepositoryMixin, View):
+    def get(self, *args, **kwargs):
+        from django.http import HttpResponse
+        from git import BadObject
+
+        commit_hash = self.kwargs["commit_hash"]
+        commit = self.git_repository.commit(commit_hash)
+
+        patch = self.git_repository.git.execute(["git", "format-patch",
+                    "%s^!" % commit.hexsha, "--stdout"])
+
+        return HttpResponse(patch, content_type="text/plain; charset=utf-8")
