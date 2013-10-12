@@ -8,6 +8,7 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
 
     def get_context_data(self, **kwargs):
         from datetime import datetime
+        from gitview.repositories.commits.models import Commit
 
         try:
             tree_path = self.kwargs["tree_path"]
@@ -19,20 +20,16 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
 
         repo_heads = self.git_repository.heads
 
-        kwargs["commit"] = self.git_repository.commit(self.tree_name)
+        kwargs["commit"] = Commit(self.git_repository.commit(self.tree_name))
 
         trees = []
 
         for tree in self.tree.trees:
             tree_commits = self.git_repository.iter_commits(
                 rev=self.tree_name, paths=tree.abspath, max_count=1)
-            tree_commit = tree_commits.next()
+            tree_commit = Commit(tree_commits.next())
 
-            tree_commit_time = datetime.fromtimestamp(
-                tree_commit.committed_date
-            )
-
-            trees.append((tree, tree_commit, tree_commit_time))
+            trees.append((tree, tree_commit))
 
         kwargs["trees"] = trees
 
@@ -41,13 +38,9 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
         for blob in self.tree.blobs:
             blob_commits = self.git_repository.iter_commits(
                 rev=self.tree_name, paths=blob.abspath, max_count=1)
-            blob_commit = blob_commits.next()
+            blob_commit = Commit(blob_commits.next())
 
-            blob_commit_time = datetime.fromtimestamp(
-                blob_commit.committed_date
-            )
-
-            blobs.append((blob, blob_commit, blob_commit_time))
+            blobs.append((blob, blob_commit))
 
         kwargs["blobs"] = blobs
 
@@ -61,9 +54,10 @@ class BlobView(mixins.RepositoryMixin, mixins.TreeMixin,
     def get_context_data(self, **kwargs):
         from git import BadObject
         from django.http import Http404
+        from gitview.repositories.commits.models import Commit
 
         try:
-            commit = self.git_repository.commit(rev=self.tree_name)
+            commit = Commit(self.git_repository.commit(rev=self.tree_name))
         except BadObject:
             raise Http404("The commit could not be located.")
 
@@ -80,7 +74,7 @@ class BlobView(mixins.RepositoryMixin, mixins.TreeMixin,
                                                   paths=blob_path,
                                                   max_count=1).next()
 
-        kwargs["commit"] = commit
+        kwargs["commit"] = Commit(commit)
 
         return super(BlobView, self).get_context_data(**kwargs)
 
@@ -92,15 +86,16 @@ class CommitView(mixins.RepositoryMixin, mixins.CommitsSectionMixin,
     def get_context_data(self, **kwargs):
         from django.http import Http404
         from git import BadObject
+        from gitview.repositories.commits.models import Commit
 
         commit_hash = self.kwargs["commit_hash"]
-        commit = self.git_repository.commit(commit_hash)
+        commit = Commit(self.git_repository.commit(commit_hash))
 
         kwargs["commit"] = commit
 
         try:
             previous_commit = self.git_repository.commit("%s~1" % commit_hash)
-            diff = previous_commit.diff(commit, create_patch=True)
+            diff = previous_commit.diff(commit.commit, create_patch=True)
         except BadObject:
             raise Http404("We can't get the diff for this commit")
 

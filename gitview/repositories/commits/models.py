@@ -3,13 +3,21 @@ class Commit(object):
     Wrapper around `git.Commit`.
     """
 
-    def __init__(self, commit, repository):
+    def __init__(self, commit, repository=None):
         self.commit = commit
         self.repository = repository
 
 
     def __getattr__(self, attr):
         return getattr(self.commit, attr)
+
+    @property
+    def committed_time(self):
+        from datetime import datetime
+
+        time = datetime.fromtimestamp(self.committed_date)
+
+        return time
 
     @property
     def description(self):
