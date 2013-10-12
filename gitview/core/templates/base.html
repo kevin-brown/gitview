@@ -96,6 +96,12 @@
                 src="{% static "js/jquery.js" %}"></script>
         <script type="text/javascript"
                 src="{% static "js/bootstrap.js" %}"></script>
+        <script type="text/javascript"
+                src="{% static "js/jquery.timeago.js" %}"></script>
+
+        <script type="text/javascript">
+            $(".js-relative-time").timeago();
+        </script>
         
         {% block js %}{% endblock %}
     </body>

@@ -1,5 +1,18 @@
 {% extends "repositories/files_base.html" %}
 
+{% block css %}
+{{ block.super }}
+<style type="text/css">
+.tree-icon {
+    width: 16px;
+}
+
+.tree-time {
+    text-align: right;
+}
+</style>
+{% endblock %}
+
 {% block repository-contents %}
 <div class="row">
     <div class="col-lg-12">
@@ -36,7 +49,7 @@
             <table class="table">
                 {% if current_tree.path %}
                 <tr>
-                    <td>
+                    <td class="tree-icon">
                     </td>
                     <td>
                         <a title="Go to tree root"
@@ -52,7 +65,7 @@
                 {% endif %}
                 {% for tree, tree_commit in trees %}
                 <tr>
-                    <td>
+                    <td class="tree-icon">
                         <i class="icon-folder-close"></i>
                     </td>
                     <td>
@@ -67,10 +80,9 @@
                             {{ tree_commit.summary }}
                         </a>
                     </td>
-                    <td>
-                        <time class="js-timeago"
-                              title="{{ tree_commit.committed_time }}"
-                              datetime="{{ tree_commit.comitted_time | date:"c" }}">
+                    <td class="tree-time">
+                        <time class="js-relative-time"
+                              datetime="{{ tree_commit.committed_time | date:"c" }}">
                             {{ tree_commit.committed_time }}
                         </time>
                     </td>
@@ -78,7 +90,7 @@
                 {% endfor %}
                 {% for blob, blob_commit in blobs %}
                 <tr>
-                    <td>
+                    <td class="tree-icon">
                         <i class="icon-file-alt"></i>
                     </td>
                     <td>
@@ -93,9 +105,8 @@
                             {{ blob_commit.summary }}
                         </a>
                     </td>
-                    <td>
-                        <time class="js-timeago"
-                              title="{{ blob_commit.committed_time }}"
+                    <td class="tree-time">
+                        <time class="js-relative-time"
                               datetime="{{ blob_commit.committed_time | date:"c" }}">
                             {{ blob_commit.committed_time }}
                         </time>

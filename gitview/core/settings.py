@@ -64,6 +64,10 @@ ALLOWED_HOSTS = (
 
 ROOT_URLCONF = "gitview.core.urls"
 
+TIME_ZONE = "America/New_York"
+
+DATETIME_FORMAT = "Y-m-d H:i:s"
+
 STATIC_URL = "/static/"
 
 LOGIN_URL = "auth:login"

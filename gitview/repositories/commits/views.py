@@ -1,11 +1,13 @@
 from django.views.generic import ListView
 from gitview.repositories import mixins
+from gitview.repositories.commits import CommitPaginator
 
 
 class CommitListView(mixins.RepositoryMixin, mixins.TreeMixin,
                      mixins.CommitsSectionMixin, ListView):
     context_object_name = "commits"
     paginate_by = 25
+    paginator_class = CommitPaginator
     template_name = "repositories/commits.html"
 
     def get_queryset(self):

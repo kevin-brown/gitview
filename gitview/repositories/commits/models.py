@@ -14,10 +14,11 @@ class Commit(object):
     @property
     def committed_time(self):
         from datetime import datetime
+        from django.utils.timezone import get_current_timezone, make_aware
 
         time = datetime.fromtimestamp(self.committed_date)
 
-        return time
+        return make_aware(time, get_current_timezone())
 
     @property
     def description(self):

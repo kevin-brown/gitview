@@ -15,8 +15,11 @@
             </div>
             <div class="panel-body">
                 {{ commit.author }}
-                authored on
-                {{ commit.committed_time }}
+                authored
+                <time class="js-relative-time"
+                      datetime="{{ commit.committed_time | date:"c" }}">
+                    {{ commit.committed_time }}
+                </time>
             </div>
             {% endblock %}
         </div>
