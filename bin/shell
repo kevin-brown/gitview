@@ -1,0 +1,62 @@
+#! /usr/bin/env python
+
+import logging
+import os
+import sys
+
+# This shell should not be accessed directly
+
+if not "SSH_CONNECTION" in os.environ:
+    print "SSH connection only"
+
+    exit()
+
+# Only allow a limited subset of git commands
+
+ALLOWED_GIT_COMMANDS = (
+    "git-upload-pack",
+    "git-receive-pack",
+    "git-upload-archive",
+)
+
+# Set up the logger
+
+logging.basicConfig(filename="/home/git/logs/ssh.log", level=logging.DEBUG,
+                    format="[%(asctime)s] [%(levelname)s] %(message)s")
+
+if not "SSH_ORIGINAL_COMMAND" in os.environ:
+    print "Hi %s! GitView does not allow shell access, but you were " \
+          "successfully authenticated." % "username"
+
+    exit()
+
+ssh_command = os.environ["SSH_ORIGINAL_COMMAND"]
+
+key_id = int(sys.argv[1])
+
+command_parts = ssh_command.split(" ")
+
+git_command = command_parts[0]
+
+git_repository = command_parts[1]
+
+# Basic connection logging
+
+logging.debug("Key #%s connected", key_id)
+logging.info("%s: %s", key_id, ssh_command)
+
+# Check if the passed command is allowed
+
+if not git_command in ALLOWED_GIT_COMMANDS:
+    logging.warning("Attempt to execute restricted command %s by %s",
+                    git_command, key_id)
+
+    print "Command not allowed."
+
+    exit()
+
+# Check if the user can send the command
+
+
+
+exit()
