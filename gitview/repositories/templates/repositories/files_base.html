@@ -7,6 +7,21 @@
 margin-bottom: 10px;
 }
 
+.tree-dropdown
+{
+font-weight: 13px;
+}
+
+.tree-label
+{
+color: darkgrey;
+}
+
+.tree-name
+{
+font-weight: bold;
+}
+
 .files-breadcrumbs {
 background-color: inherit;
 display: inline-block;
@@ -26,12 +41,18 @@ color: black;
         {% block tree-dropdown %}
         <div class="btn-group">
             <button type="button"
-                    class="btn btn-default btn-sm dropdown-toggle"
+                    class="btn btn-default btn-sm dropdown-toggle tree-dropdown"
                     data-toggle="dropdown">
-                <span class="branch-label">
-                    tree:
+                <span class="tree-label">
+                    {{ current_tree_type }}:
                 </span>
-                {{ current_tree_name }}
+                <span class="tree-name">
+                    {% if current_tree_type == "tree" %}
+                    {{ current_tree_name | slice:":7" }}
+                    {% else %}
+                    {{ current_tree_name }}
+                    {% endif %}
+                </span>
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">

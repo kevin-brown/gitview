@@ -41,8 +41,17 @@ class TreeMixin(object):
         return super(TreeMixin, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        from gitview.repositories.commits.models import Commit
+
         kwargs["current_tree"] = self.tree
         kwargs["current_tree_name"] = self.tree_name
+
+        if self.tree_name in self.git_repository.heads:
+            kwargs["current_tree_type"] = "branch"
+        elif self.tree_name in self.git_repository.tags:
+            kwargs["current_tree_type"] = "tag"
+        else:
+            kwargs["current_tree_type"] = "tree"
 
         return super(TreeMixin, self).get_context_data(**kwargs)
 
