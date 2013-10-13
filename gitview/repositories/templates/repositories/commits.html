@@ -49,6 +49,14 @@ $commit.toggleClass("commit-open");
 </script>
 {% endblock %}
 
+{% block tree-dropdown-option %}
+<li>
+    <a href="{% url "repos:commits_list_tree" repository.owner.username repository.name branch.name %}">
+        {{ branch.name }}
+    </a>
+</li>
+{% endblock %}
+
 {% block files-contents %}
 {% for day, commits_list in commits %}
 <div class="panel panel-info">

@@ -14,30 +14,9 @@
 {% endblock %}
 
 {% block repository-contents %}
-<div class="row">
-    <div class="col-lg-12">
-        <div class="btn-group">
-            <button type="button"
-                    class="btn btn-default btn-sm dropdown-toggle"
-                    data-toggle="dropdown">
-                <span class="branch-label">
-                    tree:
-                </span>
-                {{ current_tree_name }}
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                {% for branch in git_repository.branches %}
-                <li>
-                    <a href="{% url "repos:tree_index" repository.owner.username repository.name branch.name %}">
-                        {{ branch.name }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-</div>
+{% block navigation-row %}
+{{ block.super }}
+{% endblock %}
 
 <div class="row">
     <div class="col-lg-12">
