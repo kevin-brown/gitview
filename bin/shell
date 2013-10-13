@@ -4,6 +4,15 @@ import logging
 import os
 import sys
 
+# Add GitView to the system path
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")))
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "gitview.core.settings"
+
+from gitview.auth.models import User
+from gitview.repositories.models import Repository
+
 # This shell should not be accessed directly
 
 if not "SSH_CONNECTION" in os.environ:
@@ -24,9 +33,11 @@ ALLOWED_GIT_COMMANDS = (
 logging.basicConfig(filename="/home/git/logs/ssh.log", level=logging.DEBUG,
                     format="[%(asctime)s] [%(levelname)s] %(message)s")
 
+user = User.objects.get()
+
 if not "SSH_ORIGINAL_COMMAND" in os.environ:
     print "Hi %s! GitView does not allow shell access, but you were " \
-          "successfully authenticated." % "username"
+          "successfully authenticated." % user.username
 
     exit()
 
@@ -34,29 +45,60 @@ ssh_command = os.environ["SSH_ORIGINAL_COMMAND"]
 
 key_id = int(sys.argv[1])
 
-command_parts = ssh_command.split(" ")
+# Break the git command into the two parts
 
-git_command = command_parts[0]
+git_command, git_repository = ssh_command.split(" ")
 
-git_repository = command_parts[1]
+# Break the repo owner and name
+
+repo_owner, repo_name = git_repository.split("/")
+
+# Trim the quote from repo owner and .git from the repo name
+
+repo_owner = repo_owner[1:]
+repo_name = repo_name[:-5]
 
 # Basic connection logging
 
-logging.debug("Key #%s connected", key_id)
+logging.debug("Key #%s (%s) connected for %s/%s", key_id, user.username,
+              repo_owner, repo_name)
 logging.info("%s: %s", key_id, ssh_command)
 
 # Check if the passed command is allowed
 
 if not git_command in ALLOWED_GIT_COMMANDS:
     logging.warning("Attempt to execute restricted command %s by %s",
-                    git_command, key_id)
+                    git_command, user.username)
 
     print "Command not allowed."
 
     exit()
 
+# Get the repository owner
+
+try:
+    repository_owner = User.objects.get(username=repo_owner)
+except User.DoesNotExist:
+    sys.stderr.write("ERROR: Repository does not exist\n")
+
+    exit()
+
+# Get the actual repository
+
+try:
+    repository = Repository.objects.get(owner_id=repository_owner.id,
+                                        name=repo_name)
+except Repository.DoesNotExist:
+    sys.stderr.write("ERROR: Repository does not exist\n")
+
+    exit()
+
 # Check if the user can send the command
 
+import subprocess
 
-
-exit()
+try:
+    subprocess.call([git_command, repository.location])
+except Exception as e:
+    sys.stderr.write("ERROR: Something went wrong.\n")
+    raise
