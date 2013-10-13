@@ -17,6 +17,11 @@ class CommitListView(mixins.RepositoryMixin, mixins.TreeMixin,
 
         return [Commit(commit, self.repository) for commit in commits]
 
+    def get_context_data(self, **kwargs):
+        kwargs["breadcrumbs"] = (("Commits", ""), )
+
+        return super(CommitListView, self).get_context_data(**kwargs)
+
 
 class CommitView(mixins.RepositoryMixin, mixins.CommitsSectionMixin,
                  TemplateView):
