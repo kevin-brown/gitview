@@ -44,6 +44,19 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
 
         kwargs["blobs"] = blobs
 
+        breadcrumbs = []
+
+        if tree_path:
+            split_path = tree_path.split("/")
+
+            for index, part in enumerate(split_path, start=1):
+                split_part_path = split_path[:index]
+                part_path = "/".join(split_part_path)
+
+                breadcrumbs.append((part, part_path))
+
+        kwargs["breadcrumbs"] = breadcrumbs
+
         return super(TreeView, self).get_context_data(**kwargs)
 
 

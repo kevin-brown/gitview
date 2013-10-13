@@ -1,8 +1,27 @@
 {% extends "repositories/base.html" %}
 
+{% block css %}
+{{ block.super }}
+<style type="text/css">
+.repository-navigation-row {
+margin-bottom: 10px;
+}
+
+.files-breadcrumbs {
+background-color: inherit;
+display: inline-block;
+margin-bottom: 0;
+}
+
+.files-breadcrumbs > .active {
+color: black;
+}
+</style>
+{% endblock %}
+
 {% block repository-contents %}
 {% block navigation-row %}
-<div class="row repsitory-navigation-row">
+<div class="row repository-navigation-row">
     <div class="col-lg-12">
         {% block tree-dropdown %}
         <div class="btn-group">
@@ -29,17 +48,28 @@
         </div>
         {% endblock %}
 
-        {% if not breadcrumbs %}
         {% block breadcrumbs %}
-        <ul class="breadcrumbs">
+        <ul class="breadcrumb files-breadcrumbs">
             <li>
                 <a href="{% url "repos:index" repository.owner.username repository.name %}">
                     {{ repository.name }}
                 </a>
             </li>
+            {% for name, path in breadcrumbs %}
+            {% if forloop.last %}
+            <li class="active">
+                {{ name }}
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url "repos:tree_path" repository.owner.username repository.name current_tree_name path %}">
+                    {{ name }}
+                </a>
+            </li>
+            {% endif %}
+            {% endfor %}
         </ul>
         {% endblock %}
-        {% endif %}
     </div>
 </div>
 {% endblock %}
