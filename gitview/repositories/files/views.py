@@ -89,4 +89,16 @@ class BlobView(mixins.RepositoryMixin, mixins.TreeMixin,
 
         kwargs["commit"] = Commit(commit)
 
+        breadcrumbs = []
+
+        split_path = blob_path.split("/")
+        
+        for index, part in enumerate(split_path, start=1):
+            split_part_path = split_path[:index]
+            part_path = "/".join(split_part_path)
+            
+            breadcrumbs.append((part, part_path))
+            
+        kwargs["breadcrumbs"] = breadcrumbs
+
         return super(BlobView, self).get_context_data(**kwargs)
