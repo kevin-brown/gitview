@@ -28,6 +28,18 @@
             </ul>
         </div>
         {% endblock %}
+
+        {% if not breadcrumbs %}
+        {% block breadcrumbs %}
+        <ul class="breadcrumbs">
+            <li>
+                <a href="{% url "repos:index" repository.owner.username repository.name %}">
+                    {{ repository.name }}
+                </a>
+            </li>
+        </ul>
+        {% endblock %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
