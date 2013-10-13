@@ -20,7 +20,10 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
 
         repo_heads = self.git_repository.heads
 
-        kwargs["commit"] = Commit(self.git_repository.commit(self.tree_name))
+        tree_commits = self.git_repository.iter_commits(rev=self.tree_name,
+                                                        paths=tree_path)
+
+        kwargs["commit"] = Commit(tree_commits.next())
 
         trees = []
 

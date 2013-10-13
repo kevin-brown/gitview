@@ -3,9 +3,12 @@
 {% block css %}
 {{ block.super }}
 <style type="text/css">
+.commit-panel-body {
+padding-bottom: 0;
+}
 .commit {
 border: 1px solid black;
-margin-bottom: 1em;
+margin-bottom: 15px;
 padding: 6px;
 }
 .commit-summary-more {
@@ -63,7 +66,7 @@ $commit.toggleClass("commit-open");
     <div class="panel-heading">
         {{ day }}
     </div>
-    <div class="panel-body">
+    <div class="panel-body commit-panel-body">
         {% for commit in commits_list %}
         <div class="commit">
             <div class="commit-hash pull-right">
