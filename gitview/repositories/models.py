@@ -14,6 +14,10 @@ class Repository(models.Model):
 
     name = models.SlugField(max_length=50, unique=True)
 
+    location = models.FilePathField(path="/home/git/repositories/",
+                                    allow_files=False, allow_folders=True,
+                                    recursive=True, match=".*\.git")
+
     objects = RepositoryManager()
 
     class Meta:
