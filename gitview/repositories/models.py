@@ -18,10 +18,23 @@ class Repository(models.Model):
                                     allow_files=False, allow_folders=True,
                                     recursive=True, match=".*\.git")
 
+    is_public = models.BooleanField(default=True)
+
+    has_issues = models.BooleanField(default=True)
+
     objects = RepositoryManager()
 
     class Meta:
         verbose_name_plural = "repositories"
+
+    def __unicode__(self):
+        return "%s/%s" % (self.owner.username, self.name)
+
+    @property
+    def git_repository(self):
+        from git import Repo
+
+        return Repo(self.repository_location)
 
     @property
     def repository_location(self):

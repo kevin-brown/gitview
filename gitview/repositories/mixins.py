@@ -14,9 +14,7 @@ class RepositoryMixin(object):
 
         self.repository = Repository.objects.get()
 
-        repo_dir = self.repository.repository_location
-
-        self.git_repository = Repo(repo_dir)
+        self.git_repository = self.repository.git_repository
 
         return super(RepositoryMixin, self).dispatch(*args, **kwargs)
 
