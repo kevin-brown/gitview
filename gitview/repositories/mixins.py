@@ -14,8 +14,8 @@ class RepositoryMixin(object):
 
         self.repository = Repository.objects.get()
 
-        repo_dir = os.path.abspath(os.path.join(os.path.realpath(__file__),
-                                                "..", "..", ".."))
+        repo_dir = self.repository.repository_location
+
         self.git_repository = Repo(repo_dir)
 
         return super(RepositoryMixin, self).dispatch(*args, **kwargs)

@@ -29,7 +29,7 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
 
         for tree in self.tree.trees:
             tree_commits = self.git_repository.iter_commits(
-                rev=self.tree_name, paths=tree.abspath, max_count=1)
+                rev=self.tree_name, paths=tree.path, max_count=1)
             tree_commit = Commit(tree_commits.next())
 
             trees.append((tree, tree_commit))
@@ -40,7 +40,7 @@ class TreeView(mixins.RepositoryMixin, mixins.TreeMixin,
 
         for blob in self.tree.blobs:
             blob_commits = self.git_repository.iter_commits(
-                rev=self.tree_name, paths=blob.abspath, max_count=1)
+                rev=self.tree_name, paths=blob.path, max_count=1)
             blob_commit = Commit(blob_commits.next())
 
             blobs.append((blob, blob_commit))
