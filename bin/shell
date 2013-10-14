@@ -95,10 +95,11 @@ except Repository.DoesNotExist:
 
 # Check if the user can send the command
 
+# Call the actual commit with the correct location
+
 import subprocess
 
 try:
-    subprocess.call([git_command, repository.location])
+    subprocess.call([git_command, repository.repository_location])
 except Exception as e:
     sys.stderr.write("ERROR: Something went wrong.\n")
-    raise

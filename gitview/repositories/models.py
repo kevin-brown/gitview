@@ -22,3 +22,22 @@ class Repository(models.Model):
 
     class Meta:
         verbose_name_plural = "repositories"
+
+    @property
+    def repository_location(self):
+        return "/home/git/repositories/%s" % self.location
+
+    def create_git_repository(self):
+        from git import Repo
+
+        Repo.init(self.repository_location, bare=True)
+
+    def save(self, *args, **kwargs):
+        if not self.location:
+            folder_path = "%s/%s.git" % (self.owner.username, self.name)
+
+            self.location = folder_path
+
+            self.create_git_repository()
+
+        return super(Repository, self).save(*args, **kwargs)
