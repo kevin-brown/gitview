@@ -22,10 +22,3 @@ class Repository(models.Model):
 
     class Meta:
         verbose_name_plural = "repositories"
-
-
-class Commit(models.Model):
-    sha_hash = models.CharField(max_length=40)
-
-    repository = models.ForeignKey("repositories.Repository",
-                                   related_name="commits")
