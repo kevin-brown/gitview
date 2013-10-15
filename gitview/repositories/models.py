@@ -14,6 +14,8 @@ class Repository(models.Model):
 
     name = models.SlugField(max_length=50, unique=True)
 
+    default_branch = models.SlugField(max_length=100, default="master")
+
     location = models.FilePathField(path="/home/git/repositories/",
                                     allow_files=False, allow_folders=True,
                                     recursive=True, match=".*\.git")

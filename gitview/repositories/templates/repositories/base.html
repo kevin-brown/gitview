@@ -62,7 +62,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="repository-breadcrumb">
-                {% if repository.is_private %}
+                {% if not repository.is_public %}
                 <span class="repository-status private">
                     <span class="repository-label">
                         private
@@ -104,13 +104,16 @@
                         Commits
                     </a>
                 </li>
-                <li>
+                {% if repository.has_issues %}
+                <li {% if active_tab == "issues" %}class="active"{% endif %}>
                     <a href="#">
                         Issues
                     </a>
                 </li>
-                <li>
-                    <a href="#">
+                {% endif %}
+                <li {% if active_tab == "settings" %}class="active"
+                    {% endif %}>
+                    <a href="{% url "repos:settings:index" repository.owner.username repository.name %}">
                         <i class="icon-cogs"></i>
                         Settings
                     </a>

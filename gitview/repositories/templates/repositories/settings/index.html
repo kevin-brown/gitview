@@ -1,0 +1,41 @@
+{% extends "repositories/settings/base.html" %}
+
+{% block settings-contents %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Settings
+    </div>
+    <div class="panel-body">
+        <label for="id_name">
+            Repository name:
+        </label>
+
+        <input id="id_name" name="name" class="form-control"
+               value="{{ repository.name }}" />
+
+        <button type="button" class="btn btn-default">
+            Rename
+        </button>
+    </div>
+    <div class="panel-body">
+        <label for="id_default_branch">
+            Default branch:
+        </label>
+
+        <select name="default_branch" id="id_default_branch"
+                class="form-control">
+            {% for branch in branches %}
+            <option value="{{ branch.name }}"
+                    {% if repository.default_branch == branch.name %}
+                    selected="selected"{% endif %}>
+                {{ branch.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <button type="button" class="btn btn-default">
+            Change
+        </button>
+    </div>
+</div>
+{% endblock %}

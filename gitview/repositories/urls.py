@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
 from gitview.repositories.commits import views as commits
 from gitview.repositories.files import views as files
 
@@ -39,5 +39,9 @@ urlpatterns = (
     url(r"^commits/(?P<tree_name>[-\w]+)$",
         commits.CommitListView.as_view(),
         name="commits_list_tree",
+    ),
+    url(r"^settings/",
+        include("gitview.repositories.settings.urls", namespace="settings"),
+        name="settings_base",
     ),
 )
