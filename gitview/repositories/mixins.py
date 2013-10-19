@@ -7,8 +7,8 @@ class RepositoryMixin(object):
         import os
 
         try:
-            owner_name = self.kwargs["owner_name"]
-            repository_name = self.kwargs["repository_name"]
+            owner_name = kwargs["owner_name"]
+            repository_name = kwargs["repository_name"]
         except KeyError:
             raise Http404("Not enough information to retrieve the repository")
 
@@ -30,7 +30,7 @@ class TreeMixin(object):
 
     def dispatch(self, *args, **kwargs):
         try:
-            self.tree_name = self.kwargs["tree_name"]
+            self.tree_name = kwargs["tree_name"]
         except KeyError:
             self.tree_name = self.default_tree
 
