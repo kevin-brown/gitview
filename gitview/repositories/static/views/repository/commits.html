@@ -1,0 +1,45 @@
+<div class="panel panel-info" ng-repeat="day in repository.commits">
+    <div class="panel-heading">
+        {{ day.date | date:"fullDate" }}
+    </div>
+    <div class="panel-body commit-panel-body">
+        <div class="commit" ng-repeat="commit in day.commits">
+            <div class="commit-hash pull-right">
+                <a ng-href="{{ commit.commitUrl }}"
+                   title="View the commit">
+                    {{ commit.shortHash }}
+                </a>
+            </div>
+            <div class="commit-summary">
+                <a ng-href="{{ commit.commitUrl }}"
+                   title="{{ commit.summary }}">
+                    {{ commit.summary }}
+                </a>
+            </div>
+
+            <div class="commit-tree pull-right">
+                <a ng-href="{{ commit.treeUrl }}"
+                   title="Browse the code for this commit">
+                    Browse code
+                    <i class="icon-arrow-right"></i>
+                </a>
+            </div>
+            <div class="commit-author-line">
+                {{ commit.author }}
+                authored
+                <time class="js-relative-time"
+                      datetime="{{ commit.committedTime }}">
+                    {{ commit.committedTime | date:"short" }}
+                </time>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="" class="btn btn-default">
+    Previous
+</a>
+
+<a href="" class="btn btn-default">
+    Next
+</a>

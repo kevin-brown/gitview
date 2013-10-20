@@ -11,9 +11,41 @@ GitView.repositories.controller("RepositoryController",
      } else if ("treeName" in $routeParams)
      {
          $scope.repository.getTree($routeParams.treeName);
+     } else
+     {
+         $scope.repository.loaded.then(function ()
+         {
+             $scope.repository.getTree($scope.repository.defaultBranch);
+         });
      }
 
      $scope.repositoryTemplate = "/static/views/repository/tree.html";
+ }]);
+
+GitView.repositories.controller("CommitListController",
+["Repository", "$scope", "$http", "$log", "$routeParams",
+ function(Repository, $scope, $http, $log, $routeParams)
+ {
+     $scope.repository = Repository.get($routeParams.ownerName, $routeParams.repositoryName);
+
+     var branch = undefined;
+
+     if ("treeName" in $routeParams)
+     {
+         branch = $routeParams.treeName;
+     }
+
+     $scope.repository.loaded.then(function ()
+     {
+         if (!branch)
+         {
+             branch = $scope.repository.defaultBranch;
+         }
+
+         $scope.repository.getCommits(branch);
+     });
+
+     $scope.repositoryTemplate = "/static/views/repository/commits.html";
  }]);
 
 GitView.repositories.controller("CommitInfoController",

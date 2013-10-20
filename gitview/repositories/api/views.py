@@ -23,6 +23,58 @@ class RepositoryView(mixins.RepositoryMixin, generics.RetrieveUpdateAPIView):
         return Repository.objects.all()
 
 
+class CommitListView(mixins.RepositoryMixin, mixins.TreeMixin, views.APIView):
+
+    def get(self, *args, **kwargs):
+        from gitview.repositories.commits.models import Commit
+
+        commits = self.git_repository.iter_commits(rev=self.tree_name)
+
+        commits = [Commit(commit, self.repository) for commit in commits]
+
+        commits_day_data = {}
+
+        for commit in commits:
+            date = commit.committed_time.date()
+
+            if not date in commits_day_data:
+                commits_day_data[date] = []
+
+            commits_day_data[date].append(commit)
+
+        commits_list = []
+
+        for commit in commits:
+            date = commit.committed_time.date()
+
+            if not date in commits_day_data:
+                continue
+
+            commits_list.append({
+                    "date": date,
+                    "commits": commits_day_data[date],
+            })
+
+            del commits_day_data[date]
+
+        commits = []
+
+        for day in commits_list:
+            commits_day = []
+
+            for commit in day["commits"]:
+                commits_day.append(CommitSerializer(commit).data)
+
+            print commits_day
+
+            commits.append({
+                    "date": day["date"],
+                    "commits": commits_day,
+            })
+
+        return response.Response(commits)
+
+
 class CommitDetailView(mixins.RepositoryMixin, views.APIView):
 
     def get(self, request, owner_name, repository_name, commit_hash):

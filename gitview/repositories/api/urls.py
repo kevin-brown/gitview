@@ -16,6 +16,11 @@ urlpatterns = (
         name="commit",
     ),
     url(
+        r"^%s/commits/%s" % (REPOSITORY_REGEX, TREE_REGEX),
+        views.CommitListView.as_view(),
+        name="commit_list",
+    ),
+    url(
         r"^%s/trees$" % REPOSITORY_REGEX,
         views.TreeListView.as_view(),
         name="tree_list",

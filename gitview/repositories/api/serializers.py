@@ -17,6 +17,7 @@ class RepositorySerializer(serializers.ModelSerializer):
 
 class CommitSerializer(serializers.Serializer):
     hash = rest_fields.CharField(source="hexsha")
+    short_hash = rest_fields.CharField(source="shorthash")
 
     summary = rest_fields.CharField()
     description = rest_fields.CharField()

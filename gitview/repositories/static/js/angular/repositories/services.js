@@ -1,5 +1,5 @@
 GitView.repositories.factory("Repository",
-["Commit", "$http", function(Commit, $http)
+["Commit", "$http", "$q", function(Commit, $http, $q)
  {
      function Repository(ownerName, repositoryName, request)
      {
@@ -7,7 +7,8 @@ GitView.repositories.factory("Repository",
 
          self._request = request;
 
-         self.loaded = request.then;
+         var loadedPromise = $q.defer();
+         self.loaded = loadedPromise.promise;
 
          self.owner = ownerName;
 
@@ -23,11 +24,9 @@ GitView.repositories.factory("Repository",
              self.name = response.data.name;
              self.isPublic = response.data.is_public;
              self.hasIssues = response.data.has_issues;
+             self.defaultBranch = response.data.default_branch;
 
-             if (!self.tree)
-             {
-                 self.getTree(response.data.default_branch);
-             }
+             loadedPromise.resolve(response);
          });
      }
 
@@ -40,6 +39,27 @@ GitView.repositories.factory("Repository",
          request.then(function (response)
          {
              self.commit = response.data;
+         });
+
+         return request;
+     };
+
+     Repository.prototype.getCommits = function (branch)
+     {
+         var self = this;
+
+         request = $http.get(self.apiUrl + "commits/" + branch);
+
+         request.then(function (response)
+         {
+             self.commits = response.data;
+             $.each(self.commits, function (dayIndex, day)
+             {
+                 $.each(day.commits, function (commitIndex, commit)
+                 {
+                     day.commits[commitIndex] = Commit.parse(self, commit);
+                 });
+             });
          });
 
          return request;
@@ -92,22 +112,35 @@ GitView.repositories.factory("Repository",
 GitView.repositories.factory("Commit",
 [function()
  {
-     function Commit(repository, hash, request)
+     function Commit(repository, hash, request, data)
      {
          var self = this;
 
-         request.then(function(response)
+         if (request)
          {
-             self.hash = response.data.hash;
+             request.then(function(response)
+             {
+                 parse(response.data);
+             });
+         } else if (data)
+         {
+             parse(data);
+         }
 
-             self.summary = response.data.summary;
-             self.description = response.data.description;
+         function parse(data)
+         {
+             self.hash = data.hash;
+             self.shortHash = data.short_hash;
 
-             self.committedTime = response.data.committed_time;
+             self.summary = data.summary;
+             self.description = data.description;
+
+             self.committedTime = data.committed_time;
 
              self.commitUrl = repository.rootUrl + "commits/" +
                  self.hash;
-         });
+             self.treeUrl = repository.rootUrl + "tree/" + self.hash;
+         }
      }
 
      var commit = {
@@ -115,6 +148,9 @@ GitView.repositories.factory("Commit",
              request = repository.getCommit(hash);
 
              return new Commit(repository, hash, request);
+         },
+         parse: function(repository, commit) {
+             return new Commit(repository, null, null, commit);
          }
      };
 

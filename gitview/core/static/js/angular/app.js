@@ -19,6 +19,10 @@ GitView.app.config(function ($routeProvider, $locationProvider) {
         .when("/:ownerName/:repositoryName/tree/:treeName/:treePath*", {
             templateUrl: "/static/views/repository/index.html",
             controller: "RepositoryController"
+        })
+        .when("/:ownerName/:repositoryName/commits", {
+            templateUrl: "/static/views/repository/index.html",
+            controller: "CommitListController"
         });
     $locationProvider.html5Mode(true);
 });
