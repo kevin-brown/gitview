@@ -78,7 +78,7 @@ GitView.repositories.factory("Repository",
              url = url + "/" + treePath;
          }
 
-         $http.get(url).then(function (response)
+         request = $http.get(url).then(function (response)
          {
              self.tree = response.data;
 
@@ -94,6 +94,8 @@ GitView.repositories.factory("Repository",
                  this.commit = Commit.get(self, this.commit_hash);
              });
          });
+
+         return request;
      };
 
      var repository = {

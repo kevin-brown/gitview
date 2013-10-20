@@ -2,7 +2,8 @@ GitView.repositories.controller("RepositoryController",
 ["Repository", "$scope", "$http", "$log", "$routeParams",
  function(Repository, $scope, $http, $log, $routeParams)
  {
-     $scope.repository = Repository.get($routeParams.ownerName, $routeParams.repositoryName);
+     $scope.repository = Repository.get($routeParams.ownerName,
+                                        $routeParams.repositoryName);
 
      if ("treePath" in $routeParams)
      {
@@ -15,7 +16,8 @@ GitView.repositories.controller("RepositoryController",
      {
          $scope.repository.loaded.then(function ()
          {
-             $scope.repository.getTree($scope.repository.defaultBranch);
+             $scope.repository.getTree($scope.repository
+                                                     .defaultBranch);
          });
      }
 
@@ -23,10 +25,11 @@ GitView.repositories.controller("RepositoryController",
  }]);
 
 GitView.repositories.controller("CommitListController",
-["Repository", "$scope", "$http", "$log", "$routeParams",
- function(Repository, $scope, $http, $log, $routeParams)
+["Repository", "$scope", "$http", "$log", "$routeParams", "$window",
+ function(Repository, $scope, $http, $log, $routeParams, $window)
  {
-     $scope.repository = Repository.get($routeParams.ownerName, $routeParams.repositoryName);
+     $scope.repository = Repository.get($routeParams.ownerName,
+                                        $routeParams.repositoryName);
 
      var branch = undefined;
 
@@ -42,7 +45,14 @@ GitView.repositories.controller("CommitListController",
              branch = $scope.repository.defaultBranch;
          }
 
-         $scope.repository.getCommits(branch);
+         var commits = $scope.repository.getCommits(branch);
+     
+         commits.then(function (response) {
+             if (!response.data.length)
+             {
+                 $window.location.reload();
+             }
+         });
      });
 
      $scope.repositoryTemplate = "/static/views/repository/commits.html";

@@ -90,9 +90,7 @@
             </div>
         </nav>
         
-        <div ng-view>
-        {% block content %}{% endblock %}
-        </div>
+        {% block content %}<div ng-view></div>{% endblock %}
 
         <script type="text/javascript"
                 src="{% static "js/jquery.js" %}"></script>
