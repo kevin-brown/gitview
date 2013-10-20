@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="repository-breadcrumb">
+                <span class="repository-status private"
+                      ng-hide="repository.isPublic">
+                    <span class="repository-label">
+                        private
+                    </span>
+                    <i class="icon-lock"></i>
+                </span>
+                <span class="repository-status public"
+                      ng-show="repository.isPublic">
+                    <span class="repository-label">
+                        public
+                    </span>
+                    <i class="icon-globe"></i>
+                </span>
+                <a ng-href="{{ repository.ownerUrl }}"
+                   class="repository-breadcrumb-owner">
+                    {{ repository.owner }}</a>
+                <span class="repository-breadcrumb-divider">
+                    /
+                </span>
+                <a ng-href="{{ repository.rootUrl }}"
+                   class="repository-breadcrumb-name">
+                    {{ repository.name }}
+                </a>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs nav-justified repository-nav">
+                <li {% if active_tab == "files" %}class="active"{% endif %}>
+                    <a ng-href="{{ repository.filesUrl }}">
+                        <i class="icon-code"></i>
+                        Files
+                    </a>
+                </li>
+                <li {% if active_tab == "commits" %}class="active"{% endif %}>
+                    <a ng-href="{{ repository.commitsUrl }}">
+                        Commits
+                    </a>
+                </li>
+                <li {% if active_tab == "issues" %}class="active"{% endif %}
+                    ng-show="repository.hasIssues">
+                    <a href="#">
+                        Issues
+                    </a>
+                </li>
+                <li {% if active_tab == "settings" %}class="active"
+                    {% endif %}>
+                    <a href="{% url "repos:settings:index" repository.owner.username repository.name %}">
+                        <i class="icon-cogs"></i>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div ng-include="repositoryTemplate"></div>
+</div>

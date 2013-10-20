@@ -32,6 +32,7 @@ class TreePathSerializer(serializers.Serializer):
 
     def to_native(self, obj):
         from git import Blob, Tree
+        from django.core.urlresolvers import reverse
 
         data = {
             "name": obj.name,
@@ -45,8 +46,26 @@ class TreePathSerializer(serializers.Serializer):
         data["commit_hash"] = obj_commits.next().hexsha
 
         if isinstance(obj, Blob):
-            pass
+            data["type"] = "blob"
+
+            data["gitview_blob_url"] = "blob/%s/%s" % (self.tree_name,
+                                                       obj.path)
         elif isinstance(obj, Tree):
-            pass
+            data["type"] = "tree"
+
+            data["gitview_tree_url"] = "tree/%s/%s" % (self.tree_name,
+                                                       obj.path)
 
         return data
+
+    @property
+    def data(self):
+        data = super(TreePathSerializer, self).data
+
+        trees = [obj for obj in data if obj["type"] == "tree"]
+        blobs = [obj for obj in data if obj["type"] == "blob"]
+
+        return {
+            "trees": trees,
+            "blobs": blobs,
+        }

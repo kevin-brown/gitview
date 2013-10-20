@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            {% block commit %}{% block commit-data %}
+            {{ block.super }}
+            {% endblock %}{% endblock %}
+
+            <table class="table">
+                <tr ng-show="currentTree.path">
+                    <td class="tree-icon">
+                    </td>
+                    <td>
+                        <a title="Go to tree root"
+                           href="{% url "repos:tree_index" repository.owner.username repository.name current_tree_name %}">
+                            ..
+                        </a>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+
+                <tr ng-repeat="tree in repository.tree.trees">
+                    <td class="tree-icon">
+                        <i class="icon-folder-close"></i>
+                    </td>
+                    <td>
+                        <a title="{{ tree.name }}"
+                           ng-href="{{ repository.rootUrl }}{{ tree.gitview_tree_url }}">
+                            {{ tree.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a ng-href="{{ tree.commit.gitview_commit_url }}"
+                           title="{{ tree_commit.summary }}">
+                            {{ tree.commit.summary }}
+                        </a>
+                    </td>
+                    <td class="tree-time">
+                        <time class="js-relative-time"
+                              datetime="{{ tree.commit.committed_time | date:"c" }}">
+                            {{ tree.commit.committed_time }}
+                        </time>
+                    </td>
+                </tr>
+
+                <tr ng-repeat="blob in repository.tree.blobs">
+                    <td class="tree-icon">
+                        <i class="icon-file-alt"></i>
+                    </td>
+                    <td>
+                        <a ng-href="{{ repository.rootUrl }}{{ blob.gitview_blob_url }}"
+                           title="{{ blob.name }}">
+                            {{ blob.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url "repos:commit" repository.owner.username repository.name blob_commit.hexsha %}"
+                           title="{{ blob_commit.summary }}">
+                            {{ blob.commit.summary }}
+                        </a>
+                    </td>
+                    <td class="tree-time">
+                        <time class="js-relative-time"
+                              datetime="{{ blob_commit.committed_time | date:"c" }}">
+                            {{ blob.commit.committed_time }}
+                        </time>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

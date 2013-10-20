@@ -1,7 +1,7 @@
 {% load staticfiles %}
 
 <!doctype html>
-<html>
+<html ng-app="gitView">
     <head>
         <title>
             {% block title %}{% endblock %}
@@ -90,7 +90,9 @@
             </div>
         </nav>
         
+        <div ng-view>
         {% block content %}{% endblock %}
+        </div>
 
         <script type="text/javascript"
                 src="{% static "js/jquery.js" %}"></script>
@@ -98,6 +100,17 @@
                 src="{% static "js/bootstrap.js" %}"></script>
         <script type="text/javascript"
                 src="{% static "js/jquery.timeago.js" %}"></script>
+
+        <script type="text/javascript"
+                src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+        <script type="text/javascript"
+                src="{% static "js/angular/app.js" %}"></script>
+        <script type="text/javascript"
+                src="{% static "js/angular/repositories/controllers.js" %}">
+        </script>
+        <script type="text/javascript"
+                src="{% static "js/angular/repositories/services.js" %}">
+        </script>
 
         <script type="text/javascript">
             $(".js-relative-time").timeago();
