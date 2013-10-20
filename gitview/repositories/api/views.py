@@ -26,14 +26,33 @@ class RepositoryView(mixins.RepositoryMixin, generics.RetrieveUpdateAPIView):
 class CommitDetailView(mixins.RepositoryMixin, views.APIView):
 
     def get(self, request, owner_name, repository_name, commit_hash):
-        from gitview.repositories.commits.models import Commit
+        from django.views.decorators.http import condition
 
-        commit = Commit(self.git_repository.commit(commit_hash))
+        def commit_etag(request):
+            from gitview.repositories.commits.models import Commit
 
-        serializer = CommitSerializer(commit)
+            commit = Commit(self.git_repository.commit(commit_hash))
 
-        return response.Response(serializer.data)
+            return commit.hexsha
 
+        def commit_modified(request):
+            from gitview.repositories.commits.models import Commit
+
+            commit = Commit(self.git_repository.commit(commit_hash))
+
+            return commit.committed_time
+
+        @condition(etag_func=commit_etag, last_modified_func=commit_modified)
+        def cached_view(request):
+            from gitview.repositories.commits.models import Commit
+
+            commit = Commit(self.git_repository.commit(commit_hash))
+
+            serializer = CommitSerializer(commit)
+
+            return response.Response(serializer.data)
+
+        return cached_view(request)
 
 class TreeListView(mixins.RepositoryMixin, views.APIView):
 
