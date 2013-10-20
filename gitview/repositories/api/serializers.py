@@ -15,6 +15,15 @@ class RepositorySerializer(serializers.ModelSerializer):
         model = Repository
 
 
+class CommitSerializer(serializers.Serializer):
+    hash = rest_fields.CharField(source="hexsha")
+
+    summary = rest_fields.CharField()
+    description = rest_fields.CharField()
+
+    committed_time = rest_fields.DateTimeField()
+
+
 class TreeSerializer(serializers.Serializer):
     name = rest_fields.CharField()
     url = api_fields.RepositoryTreeField(source="name")
@@ -65,7 +74,13 @@ class TreePathSerializer(serializers.Serializer):
         trees = [obj for obj in data if obj["type"] == "tree"]
         blobs = [obj for obj in data if obj["type"] == "blob"]
 
+        commit = self.git_repository.iter_commits(rev=self.tree_name,
+                                                  paths=self.tree_path,
+                                                  max_count=1).next()
+
         return {
+            "commit_hash": commit.hexsha,
             "trees": trees,
             "blobs": blobs,
+            "path": self.tree_path,
         }

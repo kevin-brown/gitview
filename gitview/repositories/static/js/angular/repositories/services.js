@@ -1,5 +1,5 @@
 GitView.repositories.factory("Repository",
-["$http", function($http)
+["Commit", "$http", function(Commit, $http)
  {
      function Repository(ownerName, repositoryName, request)
      {
@@ -24,24 +24,49 @@ GitView.repositories.factory("Repository",
              self.isPublic = response.data.is_public;
              self.hasIssues = response.data.has_issues;
 
-             self.getTree(response.data.default_branch);
+             if (!self.tree)
+             {
+                 self.getTree(response.data.default_branch);
+             }
          });
      }
+
+     Repository.prototype.getCommit = function (hash)
+     {
+         var self = this;
+
+         request = $http.get(self.apiUrl + "commits/" + hash);
+
+         request.then(function (response)
+         {
+             self.commit = response.data;
+         });
+
+         return request;
+     };
 
      Repository.prototype.getTree = function (tree, treePath)
      {
          var self = this;
 
-         $http.get(self.apiUrl + "trees/" + tree).then(function (response)
+         self.tree = true;
+
+         var url = self.apiUrl + "trees/" + tree;
+
+         if (treePath)
+         {
+             url = url + "/" + treePath;
+         }
+
+         $http.get(url).then(function (response)
          {
              self.tree = response.data;
 
+             self.tree.commit = Commit.get(self, response.data.commit_hash);
+
              $.each(self.tree.trees, function ()
              {
-                 this.commit = {
-                     summary: "Commit summary",
-                     committed_time: "That time"
-                 };
+                 this.commit = Commit.get(self, this.commit_hash);
              });
          });
      };
@@ -56,4 +81,37 @@ GitView.repositories.factory("Repository",
      };
 
      return repository;
+ }]);
+
+
+GitView.repositories.factory("Commit",
+[function()
+ {
+     function Commit(repository, hash, request)
+     {
+         var self = this;
+
+         request.then(function(response)
+         {
+             self.hash = response.data.hash;
+
+             self.summary = response.data.summary;
+             self.description = response.data.description;
+
+             self.committedTime = response.data.committed_time;
+
+             self.commitUrl = repository.rootUrl + "commits/" +
+                 self.hash;
+         });
+     }
+
+     var commit = {
+         get: function(repository, hash) {
+             request = repository.getCommit(hash);
+
+             return new Commit(repository, hash, request);
+         }
+     };
+
+     return commit;
  }]);

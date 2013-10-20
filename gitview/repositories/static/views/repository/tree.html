@@ -1,17 +1,16 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-info">
-            {% block commit %}{% block commit-data %}
-            {{ block.super }}
-            {% endblock %}{% endblock %}
+            <commit-info hash="repository.tree.commit_hash" name="repository.name"
+                    owner="repository.owner"></commit-info>
 
             <table class="table">
-                <tr ng-show="currentTree.path">
+                <tr ng-show="repository.tree.path">
                     <td class="tree-icon">
                     </td>
                     <td>
                         <a title="Go to tree root"
-                           href="{% url "repos:tree_index" repository.owner.username repository.name current_tree_name %}">
+                           ng-href="{{ repository.rootUrl }}">
                             ..
                         </a>
                     </td>
@@ -32,15 +31,15 @@
                         </a>
                     </td>
                     <td>
-                        <a ng-href="{{ tree.commit.gitview_commit_url }}"
+                        <a ng-href="{{ tree.commit.commitUrl }}"
                            title="{{ tree_commit.summary }}">
                             {{ tree.commit.summary }}
                         </a>
                     </td>
                     <td class="tree-time">
                         <time class="js-relative-time"
-                              datetime="{{ tree.commit.committed_time | date:"c" }}">
-                            {{ tree.commit.committed_time }}
+                              datetime="{{ tree.commit.committedTime }}">
+                            {{ tree.commit.committedTime | date:"shortTime" }}
                         </time>
                     </td>
                 </tr>
