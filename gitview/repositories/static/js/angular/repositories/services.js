@@ -68,6 +68,11 @@ GitView.repositories.factory("Repository",
              {
                  this.commit = Commit.get(self, this.commit_hash);
              });
+
+             $.each(self.tree.blobs, function ()
+             {
+                 this.commit = Commit.get(self, this.commit_hash);
+             });
          });
      };
 

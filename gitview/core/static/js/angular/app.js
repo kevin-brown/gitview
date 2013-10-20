@@ -2,7 +2,7 @@
 
 var GitView = {
     app: angular.module("gitView", ["gitView.core", "gitView.repositories"]),
-    core: angular.module("gitView.core", ["ngRoute"]),
+    core: angular.module("gitView.core", ["ngRoute", "timeAgo"]),
     repositories: angular.module("gitView.repositories", [])
 }
 

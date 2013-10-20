@@ -1,0 +1,16 @@
+<div class="commit-info">
+    <div class="panel-heading">
+        <a title="{{ commit.summary }}"
+           ng-href="{{ repository.rootUrl }}{{ commit.gitview_commit_url }}">
+            {{ commit.summary }}
+        </a>
+    </div>
+    <div class="panel-body">
+        {{ commit.author }}
+        authored
+        <time class="js-relative-time"
+              datetime="{{ commit.committedTime }}">
+            {{ commit.committedTime | date:"shortTime" }}
+        </time>
+    </div>
+</div>

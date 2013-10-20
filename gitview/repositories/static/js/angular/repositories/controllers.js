@@ -15,3 +15,18 @@ GitView.repositories.controller("RepositoryController",
 
      $scope.repositoryTemplate = "/static/views/repository/tree.html";
  }]);
+
+GitView.repositories.controller("CommitInfoController",
+["Commit", "$scope",
+ function(Commit, $scope)
+ {
+     $scope.$watch("hash", function ()
+     {
+         if (!$scope.hash)
+         {
+             return;
+         }
+
+         $scope.commit = Commit.get($scope.repository, $scope.hash);
+     });
+ }]);

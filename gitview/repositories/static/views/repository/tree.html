@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-info">
-            <commit-info hash="repository.tree.commit_hash" name="repository.name"
-                    owner="repository.owner"></commit-info>
+            <commit-info hash="repository.tree.commit_hash"
+                         repository="repository"></commit-info>
 
             <table class="table">
                 <tr ng-show="repository.tree.path">
@@ -39,7 +39,7 @@
                     <td class="tree-time">
                         <time class="js-relative-time"
                               datetime="{{ tree.commit.committedTime }}">
-                            {{ tree.commit.committedTime | date:"shortTime" }}
+                            {{ tree.commit.committedTime | date:"short" }}
                         </time>
                     </td>
                 </tr>
@@ -55,15 +55,15 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{% url "repos:commit" repository.owner.username repository.name blob_commit.hexsha %}"
+                        <a ng-href="{{ blob.commit.commitUrl }}"
                            title="{{ blob_commit.summary }}">
                             {{ blob.commit.summary }}
                         </a>
                     </td>
                     <td class="tree-time">
                         <time class="js-relative-time"
-                              datetime="{{ blob_commit.committed_time | date:"c" }}">
-                            {{ blob.commit.committed_time }}
+                              datetime="{{ blob.commit.committedTime }}">
+                            {{ blob.commit.committedTime | date:"short" }}
                         </time>
                     </td>
                 </tr>
