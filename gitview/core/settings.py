@@ -24,6 +24,7 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "south",
     "rest_framework",
+    "pipeline",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -32,6 +33,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'pipeline.middleware.MinifyHTMLMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -59,6 +61,79 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
+STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+
+STATICFILES_FINDERS = (
+    'pipeline.finders.PipelineFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+PIPELINE_ENABLED = True
+
+PIPELINE_DISABLE_WRAPPER = True
+
+PIPELINE_COMPILERS = (
+    "pipeline_compass.compiler.CompassCompiler",
+)
+
+PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
+
+PIPELINE_CSS = {
+    "bootstrap": {
+        "source_filenames": (
+            "css/font-awesome.css",
+            "css/bootstrap.css",
+            ),
+        "output_filename": "css/bootstrap.css",
+        },
+    "repositories": {
+        "source_filenames": (
+            "css/repositories/core.scss",
+            ),
+        "output_filename": "css/repositories.css",
+        },
+    }
+
+PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
+
+PIPELINE_JS = {
+    "angular": {
+        "source_filenames": (
+            "js/angular/app.js",
+            "js/angular/timeago.js",
+            ),
+        "output_filename": "js/angular.js",
+        },
+    "jquery": {
+        "source_filenames": (
+            "js/jquery.js",
+            "js/timeago.js",
+            ),
+        "output_filename": "js/jquery.js",
+        },
+    "core": {
+        "source_filenames": (
+            "js/bootstrap.js",
+            ),
+        "output_filename": "js/core.js",
+        },
+    "repositories": {
+        "source_filenames": (
+            "js/angular/repositories/controllers.js",
+            "js/angular/repositories/directives.js",
+            "js/angular/repositories/services.js",
+            ),
+        "output_filename": "js/repositories.js",
+        },
+    }
+
 ALLOWED_HOSTS = (
     "localhost",
     os.environ.get("DJANGO_HOST", None),
@@ -71,6 +146,8 @@ TIME_ZONE = "America/New_York"
 DATETIME_FORMAT = "Y-m-d H:i:s"
 
 STATIC_URL = "/static/"
+
+STATIC_ROOT = "static/"
 
 LOGIN_URL = "auth:login"
 

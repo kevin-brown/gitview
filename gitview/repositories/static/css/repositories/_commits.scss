@@ -1,0 +1,33 @@
+.commit-panel-body {
+padding-bottom: 0;
+}
+.commit {
+border: 1px solid black;
+margin-bottom: 15px;
+padding: 6px;
+}
+.commit-summary-more {
+background-color: lightgrey;
+color: black;
+display: inline-block;
+font-size: 12px;
+font-weight: bold;
+height: 12px;
+line-height: 6px;
+padding: 0 4px;
+text-decoration: none;
+vertical-align: middle;
+}
+.commit-summary-more:hover {
+background-color: darkgrey;
+color: black;
+cursor: pointer;
+text-decoration: none;
+}
+.commit-message {
+display: none;
+}
+
+.commit-open .commit-message {
+display: block;
+}

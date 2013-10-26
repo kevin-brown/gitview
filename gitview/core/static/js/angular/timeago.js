@@ -8,7 +8,7 @@
  */
 
 angular.module('timeAgo', [])
-    .directive("jsRelativeTime", function($q) {
+    .directive("jsRelativeTime", ["$q", function($q) {
         return {
             restrict: "C",
             scope: {
@@ -33,4 +33,4 @@ angular.module('timeAgo', [])
                 });
             }
         };
-    });
+    }]);

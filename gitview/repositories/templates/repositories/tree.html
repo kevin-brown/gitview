@@ -1,18 +1,5 @@
 {% extends "repositories/files_base.html" %}
 
-{% block css %}
-{{ block.super }}
-<style type="text/css">
-.tree-icon {
-    width: 16px;
-}
-
-.tree-time {
-    text-align: right;
-}
-</style>
-{% endblock %}
-
 {% block content %}
 <div ng-view></div>
 {% endblock %}
