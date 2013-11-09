@@ -45,13 +45,13 @@
                 </li>
                 <li {% if active_tab == "issues" %}class="active"{% endif %}
                     ng-show="repository.hasIssues">
-                    <a href="#">
+                    <a ng-href="{{ repository.issuesUrl }}">
                         Issues
                     </a>
                 </li>
                 <li {% if active_tab == "settings" %}class="active"
                     {% endif %}>
-                    <a href="{% url "repos:settings:index" repository.owner.username repository.name %}">
+                    <a ng-href="{{ repository.settingsUrl }}">
                         <i class="icon-cogs"></i>
                         Settings
                     </a>
@@ -59,6 +59,8 @@
             </ul>
         </div>
     </div>
+
+    <repository-breadcrumbs repository="repository"></repository-breadcrumbs>
 
     <div ng-include="repositoryTemplate"></div>
 </div>

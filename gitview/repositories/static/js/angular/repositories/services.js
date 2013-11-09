@@ -15,7 +15,9 @@ GitView.repositories.factory("Repository",
          self.ownerUrl =  "/" + ownerName + "/";
          self.rootUrl = self.ownerUrl + repositoryName + "/";
          self.filesUrl = self.rootUrl;
-         self.commitsUrl = self.rootUrl + "commits"
+         self.commitsUrl = self.rootUrl + "commits";
+         self.issuesUrl = self.rootUrl + "issues";
+         self.settingsUrl = self.rootUrl + "settings";
 
          self.apiUrl = "/api/repositories" + self.rootUrl;
 

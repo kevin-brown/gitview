@@ -50,3 +50,32 @@
 .repository-nav > li.active > a:hover {
     cursor: pointer;
 }
+
+.repository-navigation-row {
+    margin-bottom: 10px;
+}
+
+.tree-dropdown
+{
+font-weight: 13px;
+}
+
+.tree-label
+{
+color: darkgrey;
+}
+
+.tree-name
+{
+font-weight: bold;
+}
+
+.repository-breadcrumbs {
+    background-color: inherit;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.repository-breadcrumbs > .active {
+    color: black;
+}

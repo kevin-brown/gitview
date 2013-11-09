@@ -10,3 +10,16 @@ function ()
         transclude: true
     }
 });
+
+GitView.repositories.directive("repositoryBreadcrumbs",
+function ()
+{
+    return {
+        controller: "RepositoryBreadcrumbsController",
+        replace: true,
+        restrict: "E",
+        scope: { repository: "=repository" },
+        templateUrl: "/static/views/repository/breadcrumbs.html",
+        transclude: true
+    }
+});
