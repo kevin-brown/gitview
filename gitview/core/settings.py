@@ -120,6 +120,7 @@ PIPELINE_JS = {
             "js/handlebars.js",
             "js/ember.js",
             "js/ember-data.js",
+            "js/ember-simple-auth.js",
             "js/ember/bootstrap/core.js",
             "js/ember/bootstrap/button.js",
             "js/ember/bootstrap/notifications.js",

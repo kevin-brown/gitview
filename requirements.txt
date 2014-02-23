@@ -3,5 +3,6 @@ https://github.com/gitpython-developers/GitPython/archive/0.3.tar.gz#egg=GitPyth
 django-pipeline
 django-pipeline-compass
 djangorestframework
+doac
 psycopg2==2.5.1
 south

@@ -22,25 +22,36 @@
         <li><a href="/admin/">Admin</a></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="/admin/">
-          admin
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="icon-cog"></i>
-            Settings
-          </a>
-        </li>
-        <li>
-          <a href="/logout/">
-          <i class="icon-signout"></i>
-          Log out
-          </a>
-        </li>
-      </ul>
+      {{#if session.isAuthenticated}}
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="/admin/">
+            admin
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="icon-cog"></i>
+              Settings
+            </a>
+          </li>
+          <li>
+            <a {{ action 'invalidateSession' }}>
+              <i class="icon-signout"></i>
+              Log out
+            </a>
+          </li>
+        </ul>
+      {{else}}
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a {{ action 'authenticateSession' }}>
+              <i class="icon-signin"></i>
+              Login
+            </a>
+          </li>
+        </ul>
+      {{/if}}
     </div>
   </div>
 </nav>

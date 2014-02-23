@@ -13,6 +13,9 @@ GitView.Router.map(function () {
     });
 });
 
+
+GitView.ApplicationRoute = Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin);
+
 GitView.IndexRoute = Ember.Route.extend({
     beforeModel: function () {
         if (!GitView.User.loggedIn) {
@@ -21,13 +24,11 @@ GitView.IndexRoute = Ember.Route.extend({
     }
 });
 
-GitView.LoginRoute = Ember.Route.extend({
-    beforeModel: function () {
-        if (GitView.User.loggedIn) {
-            this.transitionTo("index");
-        }
-    }
-});
+GitView.LoginController = Ember.Controller.extend(Ember.SimpleAuth.LoginControllerMixin, {
+    authenticator: GitView.Authenticator
+})
+
+GitView.LogoutRoute = Ember.Route.extend(Ember.SimpleAuth.LogoutRouteMixin);
 
 GitView.RepositoryRoute = Ember.Route.extend({
     model: function (params) {

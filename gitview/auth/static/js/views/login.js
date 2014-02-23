@@ -8,6 +8,10 @@ GitView.LoginFormView = Ember.View.extend({
     submit: function (event) {
         event.preventDefault();
 
+        console.log(this);
+
+        this.authenticate();
+
         var username = this.get("username");
         var password = this.get("password");
 
