@@ -18,6 +18,7 @@ INSTALLED_APPS = (
     "gitview.repositories",
     "gitview.issues",
     "django.contrib.admin",
+    "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.messages",
     "django.contrib.sessions",
@@ -123,6 +124,7 @@ PIPELINE_JS = {
             "js/ember/bootstrap/button.js",
             "js/ember/bootstrap/notifications.js",
             "js/ember/app.js",
+            "js/core.templates.js",
             "js/ember/router.js",
             "js/ember/models/repository.js",
             "js/ember/controllers/repository.js",
@@ -131,6 +133,7 @@ PIPELINE_JS = {
     },
     "auth": {
         "source_filenames": (
+            "js/auth.templates.js",
             "js/views/login.js",
         ),
         "output_filename": "js/auth.js",

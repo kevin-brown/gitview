@@ -25,83 +25,6 @@
         {% block css %}{% endblock %}
     </head>
     <body>
-        <script type="text/x-handlebars" data-template-name="application">
-            {% verbatim %}
-            {{bs-notifications style="z-index: 1000; position: fixed; width: 50%; left: 0; right: 0; margin-left: auto; margin-right: auto; margin-top: 50px;"}}
-            {% endverbatim %}
-            <nav class="navbar navbar-default" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle"
-                            data-toggle="collapse"
-                            data-target=".navbar-primary-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{% url "index" %}">
-                        {{ gitview.name }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse navbar-primary-collapse">
-                    <ul class="nav navbar-nav">
-                        {% if user.is_active %}
-                        <li><a href="#">Notifications</a></li>
-                        {% endif %}
-                        {% if user.is_staff %}
-                        <li><a href="{% url "admin:index" %}">Admin</a></li>
-                        {% endif %}
-                    </ul>
-
-                    {% if user.is_active %}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{% url "profile:index" user.username %}">
-                                {{ user.username }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-cog"></i>
-                                Settings
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url "auth:logout" %}">
-                                <i class="icon-signout"></i>
-                                Log out
-                            </a>
-                        </li>
-                    </ul>
-                    {% else %}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><div>
-                                <a href="#"
-                                   class="btn btn-success navbar-btn">
-                                    Register
-                                </a>
-                        </div></li>
-                        <li><div>
-                                <a href="{% url "auth:login" %}"
-                                   class="btn btn-primary navbar-btn">
-                                    Sign in
-                                </a>
-                        </div></li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>
-            </nav>
-
-            {% verbatim %}
-            <div class="container">
-                {{ outlet }}
-            </div>
-            {% endverbatim %}
-        </script>
-
         {% compressed_js "jquery" %}
         {% compressed_js "core" %}
         {% compressed_js "auth" %}
@@ -111,26 +34,6 @@
         </script>
 
         {% verbatim %}
-        <script type="text/x-handlebars" data-template-name="login">
-            {{#view GitView.LoginFormView}}
-            <label>
-                Username:
-            </label>
-
-            {{ input type="text" class="form-control" valueBinding="view.username" }}
-
-            <label>
-                Password:
-            </label>
-
-            {{ input type="password" class="form-control" valueBinding="view.password" }}
-
-            {{#bs-button type="success"}}
-            Sign in
-            {{/bs-button}}
-            {{/view}}
-        </script>
-
         <script type="text/x-handlebars" data-template-name="repository">
             <div class="container">
                 <div class="row">

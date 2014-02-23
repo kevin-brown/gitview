@@ -1,0 +1,17 @@
+{{#view GitView.LoginFormView}}
+    <label>
+        Username:
+    </label>
+
+    {{ input type="text" class="form-control" valueBinding="view.username" }}
+
+    <label>
+        Password:
+    </label>
+
+    {{ input type="password" class="form-control" valueBinding="view.password" }}
+
+    {{#bs-button type="success"}}
+        Sign in
+    {{/bs-button}}
+{{/view}}
