@@ -48,16 +48,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get("GITVIEW_DATABASE_NAME", "devdb"),
-        'USER': 'postgres',
-        'PASSWORD': os.environ.get("GITVIEW_DATABASE_PASSWORD", "dev"),
-        "HOST": "localhost",
-        "PORT": "",
-        "OPTIONS": {
-            "connect_timeout": 15,
-        },
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.environ.get("GITVIEW_DATABASE_NAME", "../gitview.db"),
+        "USER": os.environ.get("GITVIEW_DATABASE_USER", ""),
+        "PASSWORD": os.environ.get("GITVIEW_DATABASE_PASSWORD", ""),
+        "HOST": os.environ.get("GITVIEW_DATABASE_HOST", "localhost"),
+        "PORT": os.environ.get("GITVIEW_DATABASE_PORT", ""),
     }
 }
 
@@ -67,15 +64,13 @@ CACHES = {
     }
 }
 
-STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+STATICFILES_STORAGE = "pipeline.storage.PipelineCachedStorage"
 
 STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-
-PIPELINE_ENABLED = True
 
 PIPELINE_DISABLE_WRAPPER = True
 
@@ -101,38 +96,54 @@ PIPELINE_CSS = {
         },
     }
 
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
+PIPELINE_JS_COMPRESSOR = None#'pipeline.compressors.yui.YUICompressor'
 
 PIPELINE_JS = {
     "angular": {
         "source_filenames": (
             "js/angular/app.js",
             "js/angular/timeago.js",
-            ),
+        ),
         "output_filename": "js/angular.js",
-        },
+    },
     "jquery": {
         "source_filenames": (
             "js/jquery.js",
             "js/timeago.js",
-            ),
+        ),
         "output_filename": "js/jquery.js",
-        },
+    },
     "core": {
         "source_filenames": (
             "js/bootstrap.js",
-            ),
+            "js/handlebars.js",
+            "js/ember.js",
+            "js/ember-data.js",
+            "js/ember/bootstrap/core.js",
+            "js/ember/bootstrap/button.js",
+            "js/ember/bootstrap/notifications.js",
+            "js/ember/app.js",
+            "js/ember/router.js",
+            "js/ember/models/repository.js",
+            "js/ember/controllers/repository.js",
+        ),
         "output_filename": "js/core.js",
-        },
+    },
+    "auth": {
+        "source_filenames": (
+            "js/views/login.js",
+        ),
+        "output_filename": "js/auth.js",
+    },
     "repositories": {
         "source_filenames": (
             "js/angular/repositories/controllers.js",
             "js/angular/repositories/directives.js",
             "js/angular/repositories/services.js",
-            ),
+        ),
         "output_filename": "js/repositories.js",
-        },
-    }
+    },
+}
 
 ALLOWED_HOSTS = (
     "localhost",

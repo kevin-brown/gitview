@@ -1,3 +1,7 @@
 Django==1.5.4
 https://github.com/gitpython-developers/GitPython/archive/0.3.tar.gz#egg=GitPython
+django-pipeline
+django-pipeline-compass
+djangorestframework
 psycopg2==2.5.1
+south
