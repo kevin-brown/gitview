@@ -4,7 +4,7 @@ AUTH_USER_MODEL = "accounts.User"
 
 DEBUG = os.environ.get("DEBUG", False)
 
-SECRET_KEY = os.environ.get("GITVIEW_SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 INSTALLED_APPS = (
     "gitview.accounts",
@@ -68,11 +68,9 @@ STATICFILES_FINDERS = (
 
 PIPELINE_DISABLE_WRAPPER = True
 
-PIPELINE_COMPILERS = (
-    "pipeline_compass.compiler.CompassCompiler",
-)
+PIPELINE_COMPILERS = ()
 
-PIPELINE_CSS_COMPRESSOR = "pipeline.compressors.yui.YUICompressor"
+PIPELINE_CSS_COMPRESSOR = None
 
 PIPELINE_CSS = {}
 

@@ -1,5 +1,9 @@
 from django.conf.urls import include, url
-from gitview.api import views
+from rest_framework import routers
+from gitview.accounts.api.views import UserViewSet
 
+router = routers.DefaultRouter()
 
-urlpatterns = ()
+router.register("users", UserViewSet)
+
+urlpatterns = router.urls
